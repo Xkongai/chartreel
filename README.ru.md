@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/hero.gif" alt="Гонка столбцов chartreel: крупнейшие экономики мира 1990–2024, данные Всемирного банка" width="100%">
+  <img src="docs/banner.png" alt="chartreel — на входе CSV, на выходе анимированное видео с данными. Настоящие рендеры данных Всемирного банка: гонка столбцов 9:16, гонка линий, счётчик и вафельная диаграмма" width="100%">
 </p>
 
 <h1 align="center">chartreel</h1>
@@ -28,16 +28,42 @@ Douyin, Xiaohongshu, YouTube Shorts, Reels и X. Обычно для таког�
 > **Попросите агента:** «Сделай 15-секундную вертикальную гонку столбцов 10 крупнейших экономик с 1990 года
 > по данным Всемирного банка и с выводом в конце».
 
-## Галерея
+## Примеры
 
-| Гонка линий (подписи на китайском, `paper`) | Счётчик больших чисел (`neon`) |
+Каждый ролик и кадр ниже — настоящий рендер chartreel на встроенных [примерах Всемирного банка](examples/README.md) (CC BY 4.0); команда, которой он сделан, указана под ним.
+
+### Шаблоны
+
+| Гонка столбцов · 16:9 · `dark` | Гонка линий · подписи на китайском · `paper` |
 | --- | --- |
-| <img src="docs/line-race.gif" alt="Гонка линий: население Китая и Индии 1960–2024" width="100%"> | <img src="docs/counter.gif" alt="Счётчик: ВВП Китая в 1980, 2000 и 2024 годах" width="100%"> |
-| **Сдвиг долей (`paper`)** | **Вертикальный 9:16 для Shorts / Douyin (`neon`)** |
-| <img src="docs/share.gif" alt="Вафельная диаграмма: доля населения мира по регионам" width="100%"> | <img src="docs/vertical.gif" alt="Вертикальная гонка столбцов" width="45%"> |
+| <img src="docs/hero.gif" alt="Гонка столбцов · 16:9 · dark" width="100%"> | <img src="docs/line-race.gif" alt="Гонка линий · подписи на китайском · paper" width="100%"> |
+| `chartreel render examples/gdp-race.csv -c examples/gdp-race.json -a 16:9 --size 720 -d 7 --intro 0.4 --outro 1.6 --top 8` | `chartreel render examples/population-zh.csv -c examples/population-zh.json -a 16:9 --size 720 -d 8 --outro 1.6` |
+| **Счётчик большого числа · 1:1 · `neon`** | **Сдвиг долей (вафля) · 16:9 · `paper`** |
+| <img src="docs/counter.gif" alt="Счётчик большого числа · 1:1 · neon" width="100%"> | <img src="docs/share.gif" alt="Сдвиг долей (вафля) · 16:9 · paper" width="100%"> |
+| `chartreel render examples/china-gdp-counter.csv -c examples/china-gdp-counter.json -a 1:1 --size 720 -d 7 --outro 1.6` | `chartreel render examples/population-share.csv -c examples/population-share.json --theme paper -a 16:9 --size 720 -d 7 --outro 1.6` |
 
 Обложки в полном размере: [гонка 9:16](docs/cover-race-9x16.png) · [гонка линий 16:9](docs/cover-line-16x9.png).
-Во всех демо используются [данные Всемирного банка (CC BY 4.0)](examples/README.md).
+
+### Готовые стили (`--style`)
+
+Те же данные, то же 15-секундное видео 9:16, восемь стилей. Стиль объединяет тему, карточку-хук на первые ~1,5 с, счётчик года, выделение лидера и эффекты. Цифры остаются точными в каждом стиле (`tests/test_styles.py`). Миниатюры — кадр на 8,25 с каждого MP4, сделанного так:
+
+```bash
+chartreel render examples/gdp-race.csv -c examples/gdp-race.json -d 15 --style STYLE \
+  --hook "Who has the world's biggest economy?" --cta "Follow for more data stories"
+# all eight at once: bash scripts/make_styles.sh out/styles
+```
+
+<table>
+<tr><td width="25%" valign="top"><img src="docs/styles/classic.jpg" alt="--style classic" width="100%"><br><b><code>--style classic</code></b><br><sub>Стиль по умолчанию, без хука (рендер без <code>--hook</code>/<code>--cta</code>)</sub></td><td width="25%" valign="top"><img src="docs/styles/cinematic.jpg" alt="--style cinematic" width="100%"><br><b><code>--style cinematic</code></b><br><sub>Хук с киношными полосами, золотое свечение, прокрутка года, корона у лидера, наезд камеры</sub></td><td width="25%" valign="top"><img src="docs/styles/news.jpg" alt="--style news" width="100%"><br><b><code>--style news</code></b><br><sub>Телевизионные плашки: хук-плашка, номера мест, красная плашка года, плашка источника</sub></td><td width="25%" valign="top"><img src="docs/styles/editorial.jpg" alt="--style editorial" width="100%"><br><b><code>--style editorial</code></b><br><sub>Хук печатной машинкой, серые столбцы, выделенные ряды (плюс <code>--highlight "China,United States"</code>)</sub></td></tr>
+<tr><td width="25%" valign="top"><img src="docs/styles/arcade.jpg" alt="--style arcade" width="100%"><br><b><code>--style arcade</code></b><br><sub>Неон, конфетти и наезд, когда столбец входит в топ-3, стрелки ▲, полосы скорости</sub></td><td width="25%" valign="top"><img src="docs/styles/retro.jpg" alt="--style retro" width="100%"><br><b><code>--style retro</code></b><br><sub>Строки VHS, хроматический текст, метка PLAY, хук печатной машинкой</sub></td><td width="25%" valign="top"><img src="docs/styles/glass.jpg" alt="--style glass" width="100%"><br><b><code>--style glass</code></b><br><sub>Плывущие цветные пятна, матовая панель, полоса прогресса сверху</sub></td><td width="25%" valign="top"><img src="docs/styles/bold.jpg" alt="--style bold" width="100%"><br><b><code>--style bold</code></b><br><sub>Крупный текст в стиле Douyin: огромные выделенные слова хука, большой год, номера мест</sub></td></tr>
+</table>
+
+Все восемь рядом:
+
+<p align="center"><img src="docs/styles-compare.jpg" alt="Все восемь рядом" width="100%"></p>
+
+Можно собрать свой: `--fx bg,vignette,letterbox,scanlines,punch,confetti,trails,arrows,glass`, `--no-fx confetti`, `--year-style roll|row|badge`, `--progress top`, `--hook-style pop|type|strap|bold`. `--audio music.mp3` добавляет вашу дорожку, на которую у вас есть права (обрезается и плавно появляется/затухает; chartreel не содержит музыки). `chartreel styles` покажет всё.
 
 ## Установка
 
@@ -126,7 +152,7 @@ GIF через `palettegen`). Несколько процессов браузе
 
 - Шрифты берутся из системы. Без CJK-шрифта китайский текст отображается квадратиками; `chartreel doctor` предупредит.
   Эмодзи флагов не отображаются в Windows (в системном шрифте эмодзи нет флагов).
-- Пока нет звуковой дорожки и собственных ключевых кадров; время между строками одинаковое.
+- Музыки и звуковых эффектов в комплекте нет (свою дорожку можно добавить через `--audio`), своих покадровых ключевых кадров пока тоже нет; время между строками одинаковое.
 - Шаблон `line` хорошо читается примерно до 8 рядов, `share` — примерно до 10 частей.
 
 ## Разработка
@@ -135,6 +161,9 @@ GIF через `palettegen`). Несколько процессов браузе
 pip install -e ".[dev]" && python -m playwright install chromium
 pytest -q                       # parsing, accuracy, deterministic frames, smoke renders
 bash scripts/make_demos.sh      # regenerate docs/*.gif
+bash scripts/make_styles.sh out/styles    # the eight style presets, 9:16 15 s MP4 + cover
+python scripts/make_gallery.py out/styles # docs/styles/*.jpg and docs/styles-compare.jpg
+python scripts/make_banner.py             # docs/banner.png and docs/banner@2x.png
 python scripts/fetch_worldbank.py   # re-download the example data
 ```
 

@@ -110,7 +110,7 @@ def frame_times(duration: float, fps: int) -> list[float]:
 
 def render(spec: dict, out_dir: Path, name: str, formats: set[str], *, gif_width: int | None = None,
            gif_fps: int = 15, cover_at: str | float = "end", crf: int = 18, jobs: int | None = None,
-           log=print) -> dict:
+           audio: str | Path | None = None, audio_fade: float = 1.0, log=print) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     result: dict = {"files": {}, "frames": 0}
     t_start = time.perf_counter()
@@ -171,6 +171,9 @@ def render(spec: dict, out_dir: Path, name: str, formats: set[str], *, gif_width
         result["frames"] = len(times)
         result["jobs"] = jobs
         if "mp4" in formats:
+            if audio:
+                add_audio(ff, mp4, Path(audio), spec["duration"], fade=audio_fade)
+                result["audio"] = str(audio)
             result["files"]["mp4"] = mp4
 
     if "gif" in formats:
@@ -181,6 +184,26 @@ def render(spec: dict, out_dir: Path, name: str, formats: set[str], *, gif_width
         tmp_mp4.unlink(missing_ok=True)
     result["seconds"] = time.perf_counter() - t_start
     return result
+
+
+def add_audio(ff: str, video: Path, audio: Path, duration: float, *, fade: float = 1.0) -> None:
+    """Mux a user-supplied track under the video: trimmed (or padded with silence) to the video
+    length, faded in and out, AAC 192 kb/s. The video stream is copied, not re-encoded."""
+    if not audio.is_file():
+        raise RenderError(f"audio file not found: {audio}")
+    fade = max(0.0, min(fade, duration / 3))
+    chain = f"[1:a]atrim=0:{duration:.3f},asetpts=PTS-STARTPTS"
+    if fade > 0:
+        chain += f",afade=t=in:st=0:d={fade:.3f},afade=t=out:st={max(0.0, duration - fade):.3f}:d={fade:.3f}"
+    chain += ",apad[a]"
+    tmp = video.with_name(video.stem + ".audio-tmp.mp4")
+    res = subprocess.run([ff, "-y", "-loglevel", "error", "-i", str(video), "-i", str(audio), "-filter_complex", chain,
+                          "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+                          "-t", f"{duration:.3f}", "-movflags", "+faststart", str(tmp)], capture_output=True, text=True)
+    if res.returncode != 0:
+        tmp.unlink(missing_ok=True)
+        raise RenderError("ffmpeg could not add the audio track: " + res.stderr.strip()[-800:])
+    tmp.replace(video)
 
 
 def _jobs(jobs: int | None, n_frames: int) -> int:

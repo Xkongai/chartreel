@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/hero.gif" alt="Corrida de barras do chartreel: as maiores economias do mundo 1990–2024, dados do Banco Mundial" width="100%">
+  <img src="docs/banner.png" alt="chartreel — entra um CSV, sai um vídeo de dados animado. Renders reais com dados do Banco Mundial: corrida de barras 9:16, corrida de linhas, contador e gráfico waffle" width="100%">
 </p>
 
 <h1 align="center">chartreel</h1>
@@ -28,16 +28,42 @@ escreve a história (gancho, momentos-chave, conclusão) e renderiza o clipe pro
 > **Peça ao seu agente:** "Faça uma corrida de barras vertical de 15 segundos com as 10 maiores economias desde 1990,
 > com dados do Banco Mundial e uma conclusão no final."
 
-## Galeria
+## Vitrine
 
-| Corrida de linhas (rótulos em chinês, `paper`) | Contador de números grandes (`neon`) |
+Cada clipe e quadro abaixo é um render real do chartreel com os [exemplos do Banco Mundial](examples/README.md) incluídos (CC BY 4.0), feito com o comando logo abaixo.
+
+### Modelos
+
+| Corrida de barras · 16:9 · `dark` | Corrida de linhas · rótulos em chinês · `paper` |
 | --- | --- |
-| <img src="docs/line-race.gif" alt="Corrida de linhas: população da China e da Índia 1960–2024" width="100%"> | <img src="docs/counter.gif" alt="Contador: PIB da China em 1980, 2000 e 2024" width="100%"> |
-| **Mudança de participação (`paper`)** | **Vertical 9:16 para Shorts / Douyin (`neon`)** |
-| <img src="docs/share.gif" alt="Gráfico waffle: participação da população mundial por região" width="100%"> | <img src="docs/vertical.gif" alt="Corrida de barras vertical" width="45%"> |
+| <img src="docs/hero.gif" alt="Corrida de barras · 16:9 · dark" width="100%"> | <img src="docs/line-race.gif" alt="Corrida de linhas · rótulos em chinês · paper" width="100%"> |
+| `chartreel render examples/gdp-race.csv -c examples/gdp-race.json -a 16:9 --size 720 -d 7 --intro 0.4 --outro 1.6 --top 8` | `chartreel render examples/population-zh.csv -c examples/population-zh.json -a 16:9 --size 720 -d 8 --outro 1.6` |
+| **Contador de número grande · 1:1 · `neon`** | **Mudança de participação (waffle) · 16:9 · `paper`** |
+| <img src="docs/counter.gif" alt="Contador de número grande · 1:1 · neon" width="100%"> | <img src="docs/share.gif" alt="Mudança de participação (waffle) · 16:9 · paper" width="100%"> |
+| `chartreel render examples/china-gdp-counter.csv -c examples/china-gdp-counter.json -a 1:1 --size 720 -d 7 --outro 1.6` | `chartreel render examples/population-share.csv -c examples/population-share.json --theme paper -a 16:9 --size 720 -d 7 --outro 1.6` |
 
 Capas em tamanho real: [corrida 9:16](docs/cover-race-9x16.png) · [corrida de linhas 16:9](docs/cover-line-16x9.png).
-Todas as demos usam [dados do Banco Mundial (CC BY 4.0)](examples/README.md).
+
+### Estilos prontos (`--style`)
+
+Os mesmos dados, o mesmo vídeo 9:16 de 15 segundos, oito visuais. Cada estilo reúne um tema, um cartão de gancho por ~1,5 s, um contador de ano, o destaque do 1º lugar e efeitos. Os números continuam exatos em todos (`tests/test_styles.py`). As miniaturas são o quadro aos 8,25 s de cada MP4, feito com:
+
+```bash
+chartreel render examples/gdp-race.csv -c examples/gdp-race.json -d 15 --style STYLE \
+  --hook "Who has the world's biggest economy?" --cta "Follow for more data stories"
+# all eight at once: bash scripts/make_styles.sh out/styles
+```
+
+<table>
+<tr><td width="25%" valign="top"><img src="docs/styles/classic.jpg" alt="--style classic" width="100%"><br><b><code>--style classic</code></b><br><sub>Visual padrão, sem gancho (renderizado sem <code>--hook</code>/<code>--cta</code>)</sub></td><td width="25%" valign="top"><img src="docs/styles/cinematic.jpg" alt="--style cinematic" width="100%"><br><b><code>--style cinematic</code></b><br><sub>Gancho com faixas de cinema, brilho dourado, ano rolando, coroa no 1º, zoom de impacto</sub></td><td width="25%" valign="top"><img src="docs/styles/news.jpg" alt="--style news" width="100%"><br><b><code>--style news</code></b><br><sub>Tarjas de TV: gancho em tarja, números de posição, ano em selo vermelho, tarja da fonte</sub></td><td width="25%" valign="top"><img src="docs/styles/editorial.jpg" alt="--style editorial" width="100%"><br><b><code>--style editorial</code></b><br><sub>Gancho de máquina de escrever, barras cinza, séries destacadas (mais <code>--highlight "China,United States"</code>)</sub></td></tr>
+<tr><td width="25%" valign="top"><img src="docs/styles/arcade.jpg" alt="--style arcade" width="100%"><br><b><code>--style arcade</code></b><br><sub>Neon, confete e zoom quando uma barra entra no top 3, setas ▲, rastros de velocidade</sub></td><td width="25%" valign="top"><img src="docs/styles/retro.jpg" alt="--style retro" width="100%"><br><b><code>--style retro</code></b><br><sub>Linhas de VHS, texto com aberração cromática, selo PLAY, gancho de máquina de escrever</sub></td><td width="25%" valign="top"><img src="docs/styles/glass.jpg" alt="--style glass" width="100%"><br><b><code>--style glass</code></b><br><sub>Manchas de cor em movimento, painel fosco, barra de progresso no topo</sub></td><td width="25%" valign="top"><img src="docs/styles/bold.jpg" alt="--style bold" width="100%"><br><b><code>--style bold</code></b><br><sub>Texto grande estilo Douyin: gancho com palavras destacadas, ano enorme, números de posição</sub></td></tr>
+</table>
+
+Os oito lado a lado:
+
+<p align="center"><img src="docs/styles-compare.jpg" alt="Os oito lado a lado" width="100%"></p>
+
+Monte o seu: `--fx bg,vignette,letterbox,scanlines,punch,confetti,trails,arrows,glass`, `--no-fx confetti`, `--year-style roll|row|badge`, `--progress top`, `--hook-style pop|type|strap|bold`. `--audio music.mp3` adiciona uma faixa que seja sua (cortada e com fade; o chartreel não inclui música). `chartreel styles` lista tudo.
 
 ## Instalação
 
@@ -126,7 +152,7 @@ com 4 processos (cerca de 27 s com um).
 
 - As fontes vêm do sistema. Sem uma fonte CJK, o texto em chinês aparece como quadrados; o `chartreel doctor` avisa.
   Emojis de bandeiras não aparecem no Windows (a fonte de emojis do sistema não tem bandeiras).
-- Ainda não há trilha de áudio nem quadros-chave personalizados; o tempo entre linhas é uniforme.
+- Não inclui música nem efeitos sonoros (adicione sua faixa com `--audio`) e ainda não há quadros-chave personalizados; o tempo entre linhas é uniforme.
 - O modelo `line` fica mais legível com até cerca de 8 séries; o `share`, com até cerca de 10 partes.
 
 ## Desenvolvimento
@@ -135,6 +161,9 @@ com 4 processos (cerca de 27 s com um).
 pip install -e ".[dev]" && python -m playwright install chromium
 pytest -q                       # parsing, accuracy, deterministic frames, smoke renders
 bash scripts/make_demos.sh      # regenerate docs/*.gif
+bash scripts/make_styles.sh out/styles    # the eight style presets, 9:16 15 s MP4 + cover
+python scripts/make_gallery.py out/styles # docs/styles/*.jpg and docs/styles-compare.jpg
+python scripts/make_banner.py             # docs/banner.png and docs/banner@2x.png
 python scripts/fetch_worldbank.py   # re-download the example data
 ```
 

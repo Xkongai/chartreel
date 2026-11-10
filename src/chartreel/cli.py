@@ -8,14 +8,16 @@ from pathlib import Path
 
 from . import __version__
 from .data import DataError, ItemData, load, slice_times
-from .spec import TEMPLATE_ALIASES, TEMPLATES, THEMES, build_spec, load_config, resolve
+from .spec import FX, STYLE_KEYS, STYLES, TEMPLATE_ALIASES, TEMPLATES, THEMES, build_spec, load_config, resolve
 
 EXIT_OK, EXIT_DATA, EXIT_RENDER = 0, 2, 3
 
 # option name -> config key (config files use the same names with underscores)
 OPTION_KEYS = ["template", "theme", "aspect", "size", "duration", "fps", "title", "subtitle", "source", "source_label",
                "takeaway", "top", "number_style", "locale", "prefix", "suffix", "decimals", "start", "end",
-               "intro", "outro", "gif_width", "gif_fps", "cover_at", "name", "formats", "jobs"]
+               "intro", "outro", "gif_width", "gif_fps", "cover_at", "name", "formats", "jobs",
+               "style", "hook", "hook_style", "cta", "year_style", "progress", "fx", "no_fx", "highlight",
+               "leader", "ranks", "safe_zone", "audio", "audio_fade"]
 
 
 def _err(msg: str) -> None:
@@ -53,10 +55,31 @@ def add_spec_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--intro", type=float, help="seconds before the data starts moving")
     p.add_argument("--outro", type=float, help="seconds the final frame (and takeaway) is held")
     p.add_argument("--no-brand", dest="brand", action="store_false", default=None, help="hide the small 'chartreel' mark")
+    g = p.add_argument_group("style presets and effects (chartreel styles lists them)")
+    g.add_argument("-s", "--style", help="classic | cinematic | news | editorial | arcade | retro | glass | bold")
+    g.add_argument("--hook", help="hook text for the first ~1.5 s (presets default to the title)")
+    g.add_argument("--no-hook", dest="hook", action="store_false", default=None, help="no hook card")
+    g.add_argument("--hook-style", help="pop | type | strap | bold")
+    g.add_argument("--cta", help="small line under the takeaway, e.g. 'Follow for more data stories'")
+    g.add_argument("--year-style", help="watermark | roll | row | badge (race)")
+    g.add_argument("--progress", help="timeline | top | both | none")
+    g.add_argument("--fx", help="comma list of effects to use instead of the preset's: " + ", ".join(FX))
+    g.add_argument("--no-fx", action="append", metavar="EFFECT", help="drop one effect from the preset (repeatable)")
+    g.add_argument("--highlight", help="race: 'leader' or comma list of series to colour; the rest turn grey")
+    g.add_argument("--leader", dest="leader", action="store_true", default=None, help="race: outline and crown on #1")
+    g.add_argument("--no-leader", dest="leader", action="store_false", default=None, help="race: no #1 decoration")
+    g.add_argument("--ranks", dest="ranks", action="store_true", default=None, help="race: rank numbers column")
+    g.add_argument("--safe-zone", dest="safe_zone", action="store_true", default=None,
+                   help="wider margins for Douyin/Shorts/Reels UI (on for presets)")
+    g.add_argument("--no-safe-zone", dest="safe_zone", action="store_false", default=None)
 
 
 def merged_options(args: argparse.Namespace) -> dict:
     cfg = load_config(getattr(args, "config", None))
+    if getattr(args, "style", None):
+        # --style on the command line replaces the look stored in the config file
+        for key in STYLE_KEYS:
+            cfg.pop(key, None)
     opts = dict(cfg)
     for key in OPTION_KEYS + ["notes", "brand"]:
         val = getattr(args, key, None)
@@ -102,6 +125,10 @@ def cmd_render(args, default_formats: str = "mp4,gif,png") -> int:
         bad = formats - {"mp4", "gif", "png", "html"}
         if bad:
             raise DataError(f"unknown format(s): {', '.join(sorted(bad))} (use mp4,gif,png,html)")
+        if opts.get("audio") and not Path(opts["audio"]).is_file():
+            raise DataError(f"audio file not found: {opts['audio']}")
+        if opts.get("audio") and "mp4" not in formats:
+            _log("warning: --audio only applies to the MP4")
     except DataError as exc:
         _err(str(exc))
         return EXIT_DATA
@@ -117,7 +144,8 @@ def cmd_render(args, default_formats: str = "mp4,gif,png") -> int:
          f"{spec['duration']:g}s @ {spec['fps']}fps → {out}/")
     try:
         res = render(spec, out, name, formats, gif_width=opts.get("gif_width"), gif_fps=int(opts.get("gif_fps") or 15),
-                     cover_at=opts.get("cover_at") or "end", jobs=opts.get("jobs"), log=_log)
+                     cover_at=opts.get("cover_at") or "end", jobs=opts.get("jobs"), audio=opts.get("audio"),
+                     audio_fade=float(opts["audio_fade"]) if opts.get("audio_fade") is not None else 1.0, log=_log)
     except RenderError as exc:
         _err(str(exc))
         return EXIT_RENDER
@@ -192,6 +220,8 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--gif-fps", type=int, help="GIF frame rate (default: 15)")
     r.add_argument("-j", "--jobs", type=int, help="parallel browser workers (default: auto, up to 4)")
     r.add_argument("--cover-at", help="cover frame time in seconds, or 'start' / 'end' (default: end)")
+    r.add_argument("--audio", help="music/voice file to put under the MP4 (trimmed to length, faded in/out)")
+    r.add_argument("--audio-fade", type=float, help="fade in/out seconds for --audio (default: 1.0)")
 
     v = sub.add_parser("validate", help="check a CSV (and options) without rendering")
     add_spec_args(v)
@@ -203,6 +233,7 @@ def main(argv: list[str] | None = None) -> int:
 
     sub.add_parser("templates", help="list templates")
     sub.add_parser("themes", help="list themes")
+    sub.add_parser("styles", help="list style presets and effects")
     sub.add_parser("doctor", help="check ffmpeg, Chromium and fonts")
 
     args = ap.parse_args(argv)
@@ -220,6 +251,16 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "themes":
         for k, v in THEMES.items():
             print(f"{k:8} {v}")
+        return EXIT_OK
+    if args.cmd == "styles":
+        for k, (desc, d) in STYLES.items():
+            print(f"{k:10} {desc}")
+            if d:
+                print(f"{'':10} theme={d.get('theme')} hook={d.get('hook_style')} year={d.get('year_style')} "
+                      f"progress={d.get('progress')} fx={','.join(d.get('fx') or []) or '-'}")
+        print("\neffects (--fx a,b / --no-fx a):")
+        for k, v in FX.items():
+            print(f"  {k:10} {v}")
         return EXIT_OK
     if args.cmd == "doctor":
         return cmd_doctor(args)

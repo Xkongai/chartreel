@@ -42,7 +42,53 @@
       palette: ['#00F0FF', '#FF2E97', '#FFE600', '#39FF88', '#B026FF', '#FF7A00', '#4D7CFF',
         '#FF4F4F', '#C6FF00', '#FF9DF5', '#00FFC6', '#FFC2A8', '#8F7BFF', '#FFF59D', '#7DF9FF', '#E0B3FF'],
     },
+    cinema: {
+      bg: '#05070B', bgGrad: ['#0C222B', '#05070B'], glow: 'rgba(245,194,107,0.12)', glow2: 'rgba(40,160,170,0.12)',
+      text: '#F4EFE6', muted: '#98A2A6', faint: 'rgba(255,255,255,0.05)',
+      grid: 'rgba(255,255,255,0.07)', accent: '#F5C26B', card: 'rgba(8,14,18,0.92)',
+      cardStroke: 'rgba(245,194,107,0.5)', periodAlpha: 0.14, family: 'sans',
+      barGradient: true, barGlow: 10, onBar: '#05070B', blobs: ['#F5C26B', '#1F8A94', '#B5523B'],
+      palette: ['#F5C26B', '#E8684A', '#4FB3BF', '#9BC46B', '#C78BD6', '#F28C9E', '#6E9DE0',
+        '#E0A458', '#7FD1AE', '#D9D4C7', '#B5838D', '#56C1E8', '#C9B26B', '#8E9AF0', '#F2D49B', '#A0A8B0'],
+    },
+    broadcast: {
+      bg: '#081129', bgGrad: ['#12245A', '#060C1E'], glow: 'rgba(60,120,255,0.12)', glow2: null,
+      text: '#FFFFFF', muted: '#A9B6D3', faint: 'rgba(255,255,255,0.05)',
+      grid: 'rgba(255,255,255,0.09)', accent: '#E3262F', card: 'rgba(8,17,41,0.96)',
+      cardStroke: 'rgba(255,255,255,0.3)', periodAlpha: 0.12, family: 'sans',
+      barGradient: false, barGlow: 0, onBar: '#FFFFFF', noteStyle: 'strap', footerStyle: 'strap', rankBox: true,
+      palette: ['#2F7BFF', '#E3262F', '#F2B705', '#1FB57A', '#8A6CFF', '#FF7A45', '#22B8D9',
+        '#E85D9C', '#9CCB3B', '#D9DEE8', '#C2410C', '#14B8A6', '#A3A3FF', '#FCD34D', '#64748B', '#F472B6'],
+    },
+    retro: {
+      bg: '#140B24', bgGrad: ['#2B1446', '#0E0819'], glow: 'rgba(255,94,135,0.18)', glow2: 'rgba(255,190,90,0.12)',
+      text: '#FFE9D6', muted: '#B79BC9', faint: 'rgba(255,255,255,0.05)',
+      grid: 'rgba(255,200,230,0.09)', accent: '#FF5E87', card: 'rgba(28,14,46,0.94)',
+      cardStroke: 'rgba(255,94,135,0.55)', periodAlpha: 0.16, family: 'mono', bodyFamily: 'mono', chroma: true,
+      barGradient: true, barGlow: 8, onBar: '#140B24',
+      palette: ['#FF5E87', '#FFB347', '#5EE7FF', '#B388FF', '#7CFFB2', '#FF8A5B', '#FFD86B',
+        '#4D9DFF', '#FF6EC7', '#E8D8FF', '#C3FF5E', '#FF9E9E', '#9EB7FF', '#FFE29A', '#69F0C8', '#D1B3FF'],
+    },
+    glass: {
+      bg: '#0B0820', glow: null, glow2: null, blobs: ['#7A5CFF', '#FF5CA8', '#2EC5FF', '#FFB35C'],
+      text: '#FFFFFF', muted: 'rgba(255,255,255,0.72)', faint: 'rgba(255,255,255,0.06)',
+      grid: 'rgba(255,255,255,0.12)', accent: '#7CF3FF', card: 'rgba(255,255,255,0.14)',
+      cardStroke: 'rgba(255,255,255,0.4)', periodAlpha: 0.18, family: 'sans', glass: true,
+      barGradient: true, barGlow: 0, onBar: '#0B0820',
+      palette: ['#7CF3FF', '#FF8AD8', '#FFD27C', '#9DFFB0', '#B9A2FF', '#FF9E7C', '#7CB8FF',
+        '#FFF27C', '#FF7C9E', '#E6E6FF', '#7CFFE4', '#D2FF7C', '#FFB8E6', '#A2D2FF', '#FFC6A2', '#C6C6D2'],
+    },
+    bold: {
+      bg: '#0A0A0A', glow: 'rgba(255,230,0,0.07)', glow2: 'rgba(255,59,59,0.06)',
+      text: '#FFFFFF', muted: '#BDBDBD', faint: 'rgba(255,255,255,0.05)',
+      grid: 'rgba(255,255,255,0.09)', accent: '#FFE600', card: '#FFE600', cardText: '#0A0A0A',
+      cardStroke: '#FFE600', periodAlpha: 0.2, family: 'sans', titleBox: true, weight: 900, rankBox: true,
+      barGradient: false, barGlow: 0, onBar: '#0A0A0A',
+      palette: ['#FFE600', '#FF3B3B', '#00D1FF', '#00E676', '#FF6D00', '#D500F9', '#2979FF',
+        '#FF4081', '#C6FF00', '#FFFFFF', '#18FFFF', '#FFAB00', '#7C4DFF', '#76FF03', '#F50057', '#B0BEC5'],
+    },
   };
+  const FX = (CR.fx = SPEC.fx || {});
   const THEME = CR.THEMES[SPEC.theme] || CR.THEMES.dark;
   CR.theme = THEME;
 
@@ -52,11 +98,15 @@
     '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
   const SERIF = '"Noto Serif", Georgia, "Times New Roman", "Noto Serif CJK SC", "Source Han Serif SC", ' +
     '"Songti SC", SimSun, "Noto Serif CJK JP", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif';
+  const MONO = '"JetBrains Mono", "DejaVu Sans Mono", Menlo, Consolas, "Noto Sans Mono CJK SC", "Noto Sans CJK SC", ' +
+    '"PingFang SC", "Microsoft YaHei", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", monospace';
   CR.font = function (size, weight, family) {
-    const fam = (family || 'sans') === 'serif' ? SERIF : SANS;
+    family = family || 'sans';
+    const fam = family === 'serif' ? SERIF : family === 'mono' ? MONO : SANS;
     return (weight || 400) + ' ' + Math.max(1, Math.round(size * 10) / 10) + 'px ' + fam;
   };
   CR.titleFamily = THEME.family;
+  CR.titleWeight = THEME.weight || 800;
 
   // ------------------------------------------------------------ math utils
   const clamp = (CR.clamp = (x, a, b) => (x < a ? a : x > b ? b : x));
@@ -69,18 +119,21 @@
   // ------------------------------------------------------------- timeline
   // intro: title visible, chart grows in.  main: keyframes evenly spaced.
   // outro: last row held, takeaway card fades in.
+  // a hook card (style presets) holds the first ~1.5 s; data starts moving after it
+  CR.hookDur = SPEC.hook ? clamp(0.11 * SPEC.duration, 1.1, 1.8) : 0;
   CR.timeline = function (nKeys) {
     const D = SPEC.duration;
-    const I = SPEC.intro != null ? SPEC.intro : Math.min(1.0, 0.1 * D);
+    let I = SPEC.intro != null ? SPEC.intro : Math.min(1.0, 0.1 * D);
+    if (CR.hookDur) I = Math.max(I, CR.hookDur + (SPEC.intro != null ? 0.15 : 0.35));
     const O = SPEC.outro != null ? SPEC.outro : Math.min(2.2, 0.2 * D);
     const M = Math.max(0.001, D - I - O);
-    return {
+    return (CR.TL = {
       D, I, O, M, n: nKeys,
       keyTime: (k) => (nKeys > 1 ? I + (M * k) / (nKeys - 1) : I),
       pos: (t) => (nKeys > 1 ? clamp(((t - I) / M) * (nKeys - 1), 0, nKeys - 1) : 0),
       intro: (t) => clamp(t / I, 0, 1),
       outro: (t) => clamp((t - (I + M)) / Math.max(0.001, O), 0, 1),
-    };
+    });
   };
 
   // value of one series at fractional key position p (linear between rows)
@@ -146,10 +199,10 @@
   const shape = H / W > 1.3 ? 'portrait' : W / H > 1.3 ? 'landscape' : 'square';
   CR.L = {
     W, H, u, shape,
-    m: (shape === 'landscape' ? 72 : 64) * u,
-    // keep clear of the platform UI (Douyin/Shorts captions, status bar)
-    top: shape === 'portrait' ? H * 0.075 : 56 * u,
-    bottom: shape === 'portrait' ? H * 0.12 : 50 * u,
+    m: (shape === 'landscape' ? 72 : SPEC.safe && shape === 'portrait' ? 96 : 64) * u,
+    // keep clear of the platform UI (Douyin/Shorts captions, side buttons, status bar)
+    top: shape === 'portrait' ? H * (SPEC.safe ? 0.085 : 0.075) : 56 * u,
+    bottom: shape === 'portrait' ? H * (SPEC.safe ? 0.15 : 0.12) : 50 * u,
   };
 
   // tabular figures: every digit gets the same advance, so counters don't jitter
@@ -274,20 +327,52 @@
   };
 
   // ------------------------------------------------------ shared drawing
+  CR.t = 0; // time of the frame being drawn (set by renderFrame)
   CR.background = function () {
+    const t = CR.t;
     ctx.save();
     ctx.globalAlpha = 1;
-    ctx.fillStyle = THEME.bg;
+    if (THEME.bgGrad) {
+      const g = ctx.createLinearGradient(0, 0, W * 0.3, H);
+      g.addColorStop(0, THEME.bgGrad[0]); g.addColorStop(1, THEME.bgGrad[1]);
+      ctx.fillStyle = g;
+    } else ctx.fillStyle = THEME.bg;
     ctx.fillRect(0, 0, W, H);
-    if (THEME.glow) {
+    if (FX.bg) {
+      // slow drifting colour blobs; a pure function of t
+      const cols = THEME.blobs || [THEME.accent, THEME.palette[1], THEME.palette[2]];
+      const R = Math.max(W, H);
+      cols.forEach((c, k) => {
+        const ph = k * 2.1;
+        const x = W * (0.5 + 0.42 * Math.sin(t * 0.21 + ph));
+        const y = H * (0.5 + 0.40 * Math.cos(t * 0.17 + ph * 1.3));
+        const g = ctx.createRadialGradient(x, y, 0, x, y, R * (0.42 + 0.06 * Math.sin(t * 0.3 + k)));
+        g.addColorStop(0, CR.hexA(c, THEME.glass ? 0.42 : 0.16)); g.addColorStop(1, CR.hexA(c, 0));
+        ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      });
+    } else if (THEME.glow) {
       let g = ctx.createRadialGradient(W * 0.85, H * 0.05, 0, W * 0.85, H * 0.05, Math.max(W, H) * 0.6);
       g.addColorStop(0, THEME.glow); g.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-      g = ctx.createRadialGradient(W * 0.05, H * 0.95, 0, W * 0.05, H * 0.95, Math.max(W, H) * 0.5);
-      g.addColorStop(0, THEME.glow2); g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      if (THEME.glow2) {
+        g = ctx.createRadialGradient(W * 0.05, H * 0.95, 0, W * 0.05, H * 0.95, Math.max(W, H) * 0.5);
+        g.addColorStop(0, THEME.glow2); g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      }
     }
     ctx.restore();
+  };
+
+  // text with a red/cyan split (retro theme)
+  CR.fillTextFx = function (text, x, y) {
+    if (THEME.chroma) {
+      const fs = ctx.fillStyle, ga = ctx.globalAlpha;
+      ctx.globalAlpha = ga * 0.7;
+      ctx.fillStyle = '#FF2A6D'; ctx.fillText(text, x - 2.5 * u, y);
+      ctx.fillStyle = '#05D9E8'; ctx.fillText(text, x + 2.5 * u, y);
+      ctx.globalAlpha = ga; ctx.fillStyle = fs;
+    }
+    ctx.fillText(text, x, y);
   };
 
   // title + subtitle; returns the y where the chart may start
@@ -299,8 +384,9 @@
       const tsize = (L.shape === 'portrait' ? 78 : L.shape === 'landscape' ? 60 : 62) * u;
       let title = { lines: [], size: tsize };
       if (SPEC.title) {
-        title = CR.fitLines(SPEC.title, maxW, tsize, 800, CR.titleFamily, 1, 0.8); // one line if it stays big
-        if (title.truncated) title = CR.fitLines(SPEC.title, maxW, tsize, 800, CR.titleFamily, 2, 0.62);
+        const tw = THEME.titleBox ? maxW - 40 * u : maxW;
+        title = CR.fitLines(SPEC.title, tw, tsize, CR.titleWeight, CR.titleFamily, 1, 0.8); // one line if it stays big
+        if (title.truncated) title = CR.fitLines(SPEC.title, tw, tsize, CR.titleWeight, CR.titleFamily, 2, 0.62);
       }
       const ssize = (L.shape === 'portrait' ? 36 : 30) * u;
       ctx.font = CR.font(ssize, 400, 'sans');
@@ -312,8 +398,19 @@
     ctx.textBaseline = 'alphabetic';
     ctx.textAlign = 'left';
     ctx.fillStyle = THEME.text;
-    ctx.font = CR.font(title.size, 800, CR.titleFamily);
-    for (const line of title.lines) { y += title.size * 1.08; ctx.fillText(line, L.m, y); }
+    ctx.font = CR.font(title.size, CR.titleWeight, CR.titleFamily);
+    for (const line of title.lines) {
+      y += title.size * (THEME.titleBox ? 1.22 : 1.08);
+      if (THEME.titleBox) {
+        // Douyin-style caption boxes: black text on a loud colour block
+        const w = ctx.measureText(line).width;
+        ctx.fillStyle = THEME.accent;
+        ctx.fillRect(L.m - 2 * u, y - title.size * 0.92, w + 28 * u, title.size * 1.14);
+        ctx.fillStyle = THEME.cardText || '#000';
+        ctx.fillText(line, L.m + 12 * u, y);
+        ctx.fillStyle = THEME.text;
+      } else CR.fillTextFx(line, L.m, y);
+    }
     if (title.lines.length) y += title.size * 0.18;
     ctx.fillStyle = THEME.muted;
     ctx.font = CR.font(ssize, 400, 'sans');
@@ -343,7 +440,24 @@
     ctx.fillStyle = THEME.muted;
     ctx.textAlign = 'left';
     const brandW = SPEC.brand ? (ctx.font = CR.font(size, 700, 'sans'), ctx.measureText('chartreel').width + 24 * u) : 0;
-    if (SPEC.source) {
+    if (SPEC.source && THEME.footerStyle === 'strap') {
+      // TV "source bug": accent tag + label on a dark strap
+      const tag = (SPEC.sourceLabel || 'Source').toUpperCase();
+      ctx.font = CR.font(size * 0.9, 800, 'sans');
+      const tw = ctx.measureText(tag).width + size * 1.2;
+      const room = W - 2 * L.m - brandW - tw - size;
+      ctx.font = CR.font(size, 500, 'sans');
+      const text = CR.ellipsize(SPEC.source, room);
+      const sw = ctx.measureText(text).width + size * 1.2;
+      const h = size * 1.7, yt = y - size * 1.22;
+      ctx.fillStyle = THEME.accent; ctx.fillRect(L.m, yt, tw, h);
+      ctx.fillStyle = 'rgba(255,255,255,0.10)'; ctx.fillRect(L.m + tw, yt, sw, h);
+      ctx.fillStyle = '#FFFFFF'; ctx.font = CR.font(size * 0.9, 800, 'sans');
+      ctx.fillText(tag, L.m + size * 0.6, y - size * 0.1);
+      ctx.font = CR.font(size, 500, 'sans'); ctx.fillStyle = THEME.text;
+      ctx.fillText(text, L.m + tw + size * 0.6, y - size * 0.1);
+      ctx.fillStyle = THEME.muted;
+    } else if (SPEC.source) {
       const label = (SPEC.sourceLabel || 'Source') + ': ' + SPEC.source;
       const room = W - 2 * L.m - brandW;
       let fs = size;
@@ -374,7 +488,7 @@
       const span = n.hold || CR.noteHold;
       if (age >= 0 && age <= span) {
         const a = Math.min(CR.smoothstep(0, 0.25, age), 1 - CR.smoothstep(span - 0.35, span, age));
-        if (!best || t0 > best.t0) best = { text: (n.showAt === false ? '' : n.at + ' · ') + n.text, at: n.at, a, t0 };
+        if (!best || t0 > best.t0) best = { text: (n.showAt === false ? '' : n.at + ' · ') + n.text, body: n.text, at: n.at, a, t0 };
       }
     }
     return best;
@@ -385,7 +499,26 @@
     const size = (L.shape === 'portrait' ? 32 : 26) * u;
     ctx.save();
     ctx.globalAlpha = note.a;
-    ctx.font = CR.font(size, 600, 'sans');
+    if (THEME.noteStyle === 'strap') {
+      // lower-third: accent tag with the period, white strap with the event
+      const h = size * 1.9, dx = (1 - CR.easeOutCubic(note.a)) * -40 * u;
+      ctx.font = CR.font(size, 800, 'sans');
+      const tag = String(note.at);
+      const tw = ctx.measureText(tag).width + size * 1.2;
+      ctx.font = CR.font(size, 700, 'sans');
+      const text = CR.ellipsize(note.body, maxW - tw - size * 1.4);
+      const bw = ctx.measureText(text).width + size * 1.2;
+      ctx.fillStyle = THEME.accent; ctx.fillRect(x + dx, y, tw, h);
+      ctx.fillStyle = '#FFFFFF'; ctx.fillRect(x + dx + tw, y, bw, h);
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#FFFFFF'; ctx.font = CR.font(size, 800, 'sans');
+      ctx.fillText(tag, x + dx + size * 0.6, y + h / 2 + size * 0.04);
+      ctx.fillStyle = '#0B1630'; ctx.font = CR.font(size, 700, 'sans');
+      ctx.fillText(text, x + dx + tw + size * 0.6, y + h / 2 + size * 0.04);
+      ctx.restore(); ctx.textBaseline = 'alphabetic';
+      return;
+    }
+    ctx.font = CR.font(size, 600, THEME.bodyFamily || 'sans');
     const text = CR.ellipsize(note.text, maxW - size * 2.4);
     const w = ctx.measureText(text).width + size * 2.2;
     const h = size * 1.9;
@@ -393,9 +526,9 @@
     CR.roundRect(x, y + dy, w, h, h / 2);
     ctx.fillStyle = THEME.card; ctx.fill();
     ctx.strokeStyle = THEME.cardStroke; ctx.lineWidth = 1.5 * u; ctx.stroke();
-    ctx.fillStyle = THEME.accent;
+    ctx.fillStyle = THEME.cardText || THEME.accent;
     ctx.beginPath(); ctx.arc(x + size * 0.95, y + dy + h / 2, size * 0.24, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = THEME.text; ctx.textBaseline = 'middle';
+    ctx.fillStyle = THEME.cardText || THEME.text; ctx.textBaseline = 'middle';
     ctx.fillText(text, x + size * 1.55, y + dy + h / 2 + size * 0.04);
     ctx.restore();
     ctx.textBaseline = 'alphabetic';
@@ -418,10 +551,19 @@
     let fit = CR.fitLines(SPEC.takeaway, maxW - size * 1.6, size, 800, CR.titleFamily, 1, 0.75);
     if (fit.truncated) fit = CR.fitLines(SPEC.takeaway, maxW - size * 1.6, size, 800, CR.titleFamily, 2, 0.6);
     const lh = fit.size * 1.25;
-    const h = lh * fit.lines.length + fit.size * 1.1;
+    let h = lh * fit.lines.length + fit.size * 1.1;
     ctx.font = CR.font(fit.size, 800, CR.titleFamily);
-    const w = Math.min(maxW, Math.max(...fit.lines.map((l) => ctx.measureText(l).width)) + fit.size * 1.6);
-    takeawayCache = { lines: fit.lines, size: fit.size, lh, w, h };
+    let w = Math.max(...fit.lines.map((l) => ctx.measureText(l).width));
+    let cta = null;
+    if (SPEC.cta) {
+      const cs = fit.size * 0.56;
+      ctx.font = CR.font(cs, 600, 'sans');
+      cta = { text: CR.ellipsize(SPEC.cta, maxW - size * 1.6), size: cs };
+      w = Math.max(w, ctx.measureText(cta.text).width);
+      h += cs * 1.5;
+    }
+    w = Math.min(maxW, w + fit.size * 1.6);
+    takeawayCache = { lines: fit.lines, size: fit.size, lh, w, h, cta };
     return takeawayCache;
   };
   CR.takeawayGap = () => (16 + (THEME.barGlow || 0) * 0.6) * u;
@@ -451,15 +593,22 @@
     if (THEME.barGlow) { ctx.shadowColor = THEME.accent; ctx.shadowBlur = THEME.barGlow * 0.6 * u; }
     CR.roundRect(x, y, w, h, 20 * u);
     ctx.fillStyle = THEME.card; ctx.fill();
+    if (THEME.glass) { ctx.fillStyle = 'rgba(255,255,255,0.06)'; ctx.fillRect(x + 20 * u, y + 2 * u, w - 40 * u, h * 0.4); }
     ctx.shadowBlur = 0;
     ctx.strokeStyle = THEME.cardStroke; ctx.lineWidth = 2 * u; ctx.stroke();
-    ctx.fillStyle = THEME.accent;
+    ctx.fillStyle = THEME.cardText ? THEME.cardText : THEME.accent;
     ctx.fillRect(x, y + h * 0.2, 6 * u, h * 0.6);
-    ctx.fillStyle = THEME.text;
+    ctx.fillStyle = THEME.cardText || THEME.text;
     ctx.font = CR.font(f.size, 800, CR.titleFamily);
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    let ly = y + h / 2 - (f.lines.length - 1) * f.lh / 2;
+    const ctaH = f.cta ? f.cta.size * 1.5 : 0;
+    let ly = y + (h - ctaH) / 2 - (f.lines.length - 1) * f.lh / 2;
     for (const line of f.lines) { ctx.fillText(line, x + w / 2, ly + f.size * 0.04); ly += f.lh; }
+    if (f.cta) {
+      ctx.font = CR.font(f.cta.size, 600, 'sans');
+      ctx.globalAlpha *= 0.8;
+      ctx.fillText(f.cta.text, x + w / 2, y + h - f.size * 0.55 - f.cta.size * 0.55);
+    }
     ctx.restore();
     ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     return r;
@@ -484,6 +633,250 @@
     CR.drawNumber(String(text), x, y, align || 'right');
     ctx.restore();
   };
+
+  // rolling digits: characters that change slide up like an odometer (f: 0→1)
+  CR.drawRoll = function (from, to, f, x, y, align) {
+    from = String(from); to = String(to);
+    if (f <= 0 || from === to) return CR.drawNumber(from, x, y, align);
+    if (f >= 1) return CR.drawNumber(to, x, y, align);
+    const e = CR.easeInOutCubic(f);
+    if (from.length !== to.length) {
+      const ga = ctx.globalAlpha;
+      ctx.globalAlpha = ga * (1 - e); CR.drawNumber(from, x, y, align);
+      ctx.globalAlpha = ga * e; const w = CR.drawNumber(to, x, y, align);
+      ctx.globalAlpha = ga; return w;
+    }
+    const size = parseFloat(/([\d.]+)px/.exec(ctx.font)[1]);
+    const dw = ctx.measureText('0').width;
+    const total = CR.numberWidth(to);
+    let cx = align === 'right' ? x - total : align === 'center' ? x - total / 2 : x;
+    const saved = ctx.textAlign; ctx.textAlign = 'left';
+    const ga = ctx.globalAlpha;
+    for (let k = 0; k < to.length; k++) {
+      const a = from[k], b = to[k];
+      const isD = b >= '0' && b <= '9';
+      const cw = isD ? dw : ctx.measureText(b).width;
+      const off = (ch) => (ch >= '0' && ch <= '9' ? (dw - ctx.measureText(ch).width) / 2 : 0);
+      if (a === b) ctx.fillText(b, cx + off(b), y);
+      else {
+        ctx.save();
+        ctx.beginPath(); ctx.rect(cx - 2 * u, y - size * 1.0, cw + 4 * u, size * 1.22); ctx.clip();
+        ctx.globalAlpha = ga * (1 - e); ctx.fillText(a, cx + off(a), y - e * size * 0.95);
+        ctx.globalAlpha = ga * e; ctx.fillText(b, cx + off(b), y + (1 - e) * size * 0.95);
+        ctx.restore();
+      }
+      cx += cw;
+    }
+    ctx.textAlign = saved;
+    return total;
+  };
+  // which period label to show at key position p, and how far the roll to the next one is
+  CR.periodRoll = function (times, p, perKey) {
+    const k = CR.periodIndex(p);
+    const span = clamp(0.18 / Math.max(perKey, 1e-3), 0.1, 0.35);
+    const f = p - k;
+    if (k + 1 >= times.length || f < 1 - span) return { from: times[k], to: times[k], f: 0 };
+    return { from: times[k], to: times[k + 1], f: (f - (1 - span)) / span };
+  };
+
+  // ------------------------------------------------------------- effects
+  // tiny deterministic hash -> [0,1)
+  const rnd = (CR.rnd = (a, b) => { const x = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return x - Math.floor(x); });
+  // confetti bursts: [{t, x, y, seed}]; each lasts 1.5 s
+  CR.drawConfetti = function (bursts, t) {
+    for (const bu of bursts) {
+      const age = t - bu.t;
+      if (age < 0 || age > 1.5) continue;
+      ctx.save();
+      ctx.globalAlpha = 1 - CR.smoothstep(0.9, 1.5, age);
+      for (let k = 0; k < 56; k++) {
+        const ang = -Math.PI / 2 + (rnd(bu.seed, k) - 0.5) * Math.PI * 1.3;
+        const sp = (520 + 820 * rnd(bu.seed + 1, k)) * u;
+        const drag = 1 - Math.exp(-2.2 * age);
+        const px = bu.x + Math.cos(ang) * sp * drag / 2.2;
+        const py = bu.y + Math.sin(ang) * sp * drag / 2.2 + 520 * u * age * age;
+        const sz = (8 + 10 * rnd(bu.seed + 2, k)) * u;
+        ctx.translate(px, py); ctx.rotate(rnd(bu.seed + 3, k) * 6 + age * (rnd(bu.seed + 4, k) - 0.5) * 18);
+        ctx.fillStyle = THEME.palette[k % 8];
+        ctx.fillRect(-sz / 2, -sz * 0.3, sz, sz * 0.6);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        if (CR.camera) CR.camera();
+      }
+      ctx.restore();
+    }
+  };
+
+  function vignette() {
+    const g = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.hypot(W, H) * 0.6);
+    g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,0.55)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+  function scanlines(t) {
+    ctx.save();
+    ctx.fillStyle = 'rgba(0,0,0,0.16)';
+    const step = Math.max(2, Math.round(4 * u));
+    for (let y = 0; y < H; y += step) ctx.fillRect(0, y, W, Math.max(1, step / 2));
+    // a slow tracking band rolling down the picture
+    const by = (((t * 0.18) % 1.3) - 0.15) * H;
+    const g = ctx.createLinearGradient(0, by - 40 * u, 0, by + 40 * u);
+    g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(255,255,255,0.06)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, by - 40 * u, W, 80 * u);
+    // PLAY stamp + tape counter
+    const L = CR.L;
+    const size = (L.shape === 'portrait' ? 30 : 22) * u;
+    const y = L.shape === 'portrait' ? L.top * 0.55 : 30 * u;
+    ctx.font = CR.font(size, 700, 'mono'); ctx.textBaseline = 'middle';
+    ctx.fillStyle = THEME.text; ctx.globalAlpha = 0.85;
+    ctx.textAlign = 'left'; CR.fillTextFx('▶ PLAY', L.m, y);
+    const s = Math.floor(t);
+    ctx.textAlign = 'right'; CR.fillTextFx('SP 0:' + String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'), W - L.m, y);
+    ctx.restore();
+  }
+  function topProgress(t) {
+    const TL = CR.TL; if (!TL) return;
+    const L = CR.L;
+    const f = clamp((t - TL.I) / TL.M, 0, 1);
+    const y = L.shape === 'portrait' ? L.top * 0.38 : 18 * u, h = 8 * u, w = W - 2 * L.m;
+    ctx.save();
+    ctx.fillStyle = THEME.grid; CR.roundRect(L.m, y, w, h, h / 2); ctx.fill();
+    ctx.fillStyle = THEME.accent; ctx.shadowColor = THEME.accent; ctx.shadowBlur = 12 * u;
+    CR.roundRect(L.m, y, Math.max(h, w * f), h, h / 2); ctx.fill();
+    ctx.restore();
+  }
+
+  // the hook: a big question/claim over a dimmed chart for the first ~1.5 s
+  let hookCache = null;
+  function hookKicker() {
+    const D = SPEC.data || {};
+    if (D.times && D.times.length > 1) return D.times[0] + ' → ' + D.times[D.times.length - 1];
+    if (D.items && D.items.length > 1) return D.items[0].label + ' → ' + D.items[D.items.length - 1].label;
+    return '';
+  }
+  CR.drawHook = function (t) {
+    const HD = CR.hookDur;
+    if (!HD || t >= HD) return;
+    const L = CR.L, st = SPEC.hookStyle || 'pop';
+    const big = st === 'bold';
+    const maxW = W - 2 * L.m - (big ? 40 * u : 0);
+    if (!hookCache) {
+      const size = (L.shape === 'portrait' ? (big ? 150 : 104) : big ? 110 : 84) * u;
+      const fit = CR.fitLines(SPEC.hook, maxW, size, big ? 900 : CR.titleWeight, big ? 'sans' : CR.titleFamily, big ? 4 : 3, 0.45);
+      ctx.font = CR.font(fit.size, big ? 900 : CR.titleWeight, big ? 'sans' : CR.titleFamily);
+      hookCache = { fit, widths: fit.lines.map((l) => ctx.measureText(l).width), kicker: hookKicker() };
+    }
+    const { fit, widths, kicker } = hookCache;
+    const exit = CR.smoothstep(HD - 0.32, HD, t);
+    ctx.save();
+    ctx.globalAlpha = 0.9 * (1 - exit);
+    ctx.fillStyle = THEME.bg; ctx.fillRect(0, 0, W, H);
+    ctx.globalAlpha = 1 - exit;
+    const lh = fit.size * (big ? 1.2 : 1.14);
+    const blockH = lh * fit.lines.length;
+    const cy = H * (L.shape === 'portrait' ? 0.44 : 0.5);
+    const y0 = cy - blockH / 2 + fit.size * 0.85 - exit * 30 * u;
+    const fam = big ? 'sans' : CR.titleFamily, wt = big ? 900 : CR.titleWeight;
+    // kicker: the data range, in the accent colour
+    if (kicker && st !== 'strap') {
+      const ks = (L.shape === 'portrait' ? 38 : 30) * u;
+      ctx.font = CR.font(ks, 700, THEME.bodyFamily || 'sans'); ctx.textAlign = 'center';
+      ctx.fillStyle = THEME.accent;
+      ctx.globalAlpha = (1 - exit) * CR.smoothstep(0, 0.25, t);
+      ctx.fillText(kicker, W / 2, y0 - fit.size * 1.05 - ks * 0.4);
+      ctx.globalAlpha = 1 - exit;
+    }
+    ctx.textBaseline = 'alphabetic';
+    if (st === 'strap') {
+      // broadcast strap sliding in from the left
+      const slide = CR.easeOutCubic(clamp((t - 0.05) / 0.4, 0, 1));
+      const ts = (L.shape === 'portrait' ? 36 : 28) * u;
+      const x = L.m - (1 - slide) * W;
+      const top = y0 - fit.size * 1.0 - ts * 1.9;
+      ctx.font = CR.font(ts, 800, 'sans');
+      const tag = ('DATA' + (kicker ? '  ·  ' + kicker : '')).toUpperCase();
+      const tw = ctx.measureText(tag).width + ts * 1.2;
+      ctx.fillStyle = THEME.accent; ctx.fillRect(x, top, tw, ts * 1.8);
+      ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'left'; ctx.fillText(tag, x + ts * 0.6, top + ts * 1.25);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(x, top + ts * 1.8, Math.max(...widths) + 60 * u, blockH + fit.size * 0.5);
+      ctx.fillStyle = '#0B1630'; ctx.font = CR.font(fit.size, wt, fam);
+      fit.lines.forEach((line, j) => ctx.fillText(line, x + 30 * u, y0 + j * lh));
+      ctx.restore();
+      return;
+    }
+    ctx.font = CR.font(fit.size, wt, fam);
+    if (st === 'type') {
+      // typewriter: characters appear at a steady rate, with a blinking block cursor
+      const all = fit.lines.join('');
+      const n = Array.from(all).length;
+      const shown = Math.floor(clamp((t - 0.1) / Math.max(0.3, HD * 0.62), 0, 1) * n + 1e-6);
+      let left = shown, cur = null;
+      fit.lines.forEach((line, j) => {
+        const chars = Array.from(line);
+        const part = chars.slice(0, Math.max(0, left)).join('');
+        left -= chars.length;
+        const x = W / 2 - widths[j] / 2, y = y0 + j * lh;
+        ctx.textAlign = 'left'; ctx.fillStyle = THEME.text;
+        CR.fillTextFx(part, x, y);
+        if (left < 0 && !cur) cur = [x + ctx.measureText(part).width, y];
+      });
+      if (!cur) cur = [W / 2 + widths[widths.length - 1] / 2, y0 + (fit.lines.length - 1) * lh];
+      if (Math.floor(t * 4) % 2 === 0 || shown < n) {
+        ctx.fillStyle = THEME.accent;
+        ctx.fillRect(cur[0] + 6 * u, cur[1] - fit.size * 0.78, fit.size * 0.5, fit.size * 0.9);
+      }
+      ctx.restore();
+      return;
+    }
+    // pop / bold: words land one after another with a little overshoot
+    let wi = 0;
+    const step = big ? 0.13 : 0.085;
+    fit.lines.forEach((line, j) => {
+      const words = /\s/.test(line) ? line.split(/(?<=\s)/) : [line];
+      let x = W / 2 - widths[j] / 2;
+      const y = y0 + j * lh;
+      if (big && j % 2 === 1) {
+        // alternate lines sit on a highlight block, like Douyin captions
+        const a = CR.smoothstep(0.05 + wi * step, 0.2 + wi * step, t);
+        ctx.fillStyle = THEME.accent; ctx.globalAlpha = (1 - exit) * a;
+        ctx.fillRect(x - 18 * u, y - fit.size * 0.9, widths[j] * a + 36 * u, fit.size * 1.12);
+        ctx.globalAlpha = 1 - exit;
+      }
+      for (const w of words) {
+        const t0 = 0.05 + wi * step;
+        const k = clamp((t - t0) / 0.22, 0, 1);
+        const back = 1 + 2.2 * Math.pow(k - 1, 3) + 1.2 * Math.pow(k - 1, 2); // easeOutBack
+        const sc = (big ? 1.6 : 1.3) - (big ? 0.6 : 0.3) * back;
+        const ww = ctx.measureText(w).width;
+        ctx.save();
+        ctx.globalAlpha = (1 - exit) * clamp(k * 2, 0, 1);
+        ctx.translate(x + ww / 2, y - fit.size * 0.35); ctx.scale(sc * (1 + exit * 0.08), sc * (1 + exit * 0.08));
+        ctx.textAlign = 'center';
+        ctx.fillStyle = big && j % 2 === 1 ? (THEME.cardText || '#000') : THEME.text;
+        CR.fillTextFx(w, 0, fit.size * 0.35);
+        ctx.restore();
+        x += ww; wi++;
+      }
+    });
+    ctx.restore();
+  };
+  function letterbox(t) {
+    const open = CR.easeInOutCubic(clamp((t - Math.max(0, CR.hookDur - 0.25)) / 0.7, 0, 1));
+    const h = H * 0.1 * (1 - open);
+    if (h < 0.5) return;
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, h); ctx.fillRect(0, H - h, W, h);
+  }
+  // camera punch (scale about the centre) requested by the template for frame t
+  let punch = 0;
+  CR.camera = function () { if (punch > 0) { ctx.translate(W / 2, H / 2); ctx.scale(1 + punch, 1 + punch); ctx.translate(-W / 2, -H / 2); } };
+  function overlays(t) {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+    if (FX.vignette) vignette();
+    if (FX.scanlines) scanlines(t);
+    if (SPEC.progress === 'top' || SPEC.progress === 'both') topProgress(t);
+    CR.drawHook(t);
+    if (FX.letterbox) letterbox(t);
+  }
 
   // --------------------------------------------------------- registration
   let impl = null;
@@ -512,11 +905,17 @@
       t = clamp(+t || 0, 0, SPEC.duration);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.globalAlpha = 1; ctx.shadowBlur = 0; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      CR.t = t;
+      punch = FX.punch && impl.punch ? impl.punch(t) : 0;
+      CR.camera();
       impl.draw(ctx, t);
+      overlays(t);
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
       return true;
     },
     state: (t) => impl.state(clamp(+t || 0, 0, SPEC.duration)),
     keyTimes: () => impl.keyTimes(),
+    events: () => (impl.events ? impl.events() : []),
     geometry: (t) => (impl.geometry ? impl.geometry(clamp(+t || 0, 0, SPEC.duration)) : null),
   };
 

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/hero.gif" alt="Course de barres chartreel : les plus grandes économies du monde 1990–2024, données de la Banque mondiale" width="100%">
+  <img src="docs/banner.png" alt="chartreel — un CSV en entrée, une vidéo de données animée en sortie. De vrais rendus de données de la Banque mondiale : course de barres 9:16, course de courbes, compteur et graphique en gaufre" width="100%">
 </p>
 
 <h1 align="center">chartreel</h1>
@@ -28,16 +28,42 @@ ou un notebook rempli de code matplotlib. **chartreel** donne à votre agent IA 
 > **Demandez à votre agent :** « Fais une course de barres verticale de 15 secondes des 10 plus grandes économies depuis 1990,
 > avec les données de la Banque mondiale et une conclusion à la fin. »
 
-## Galerie
+## Vitrine
 
-| Course de courbes (libellés en chinois, `paper`) | Compteur de grands nombres (`neon`) |
+Chaque animation et chaque image ci-dessous est un vrai rendu chartreel des [exemples Banque mondiale](examples/README.md) fournis (CC BY 4.0), obtenu avec la commande indiquée dessous.
+
+### Modèles
+
+| Course de barres · 16:9 · `dark` | Course de courbes · libellés chinois · `paper` |
 | --- | --- |
-| <img src="docs/line-race.gif" alt="Course de courbes : population de la Chine et de l'Inde 1960–2024" width="100%"> | <img src="docs/counter.gif" alt="Compteur : PIB de la Chine en 1980, 2000 et 2024" width="100%"> |
-| **Évolution des parts (`paper`)** | **Vertical 9:16 pour Shorts / Douyin (`neon`)** |
-| <img src="docs/share.gif" alt="Graphique en gaufre : part de la population mondiale par région" width="100%"> | <img src="docs/vertical.gif" alt="Course de barres verticale" width="45%"> |
+| <img src="docs/hero.gif" alt="Course de barres · 16:9 · dark" width="100%"> | <img src="docs/line-race.gif" alt="Course de courbes · libellés chinois · paper" width="100%"> |
+| `chartreel render examples/gdp-race.csv -c examples/gdp-race.json -a 16:9 --size 720 -d 7 --intro 0.4 --outro 1.6 --top 8` | `chartreel render examples/population-zh.csv -c examples/population-zh.json -a 16:9 --size 720 -d 8 --outro 1.6` |
+| **Compteur de grand nombre · 1:1 · `neon`** | **Évolution des parts (gaufre) · 16:9 · `paper`** |
+| <img src="docs/counter.gif" alt="Compteur de grand nombre · 1:1 · neon" width="100%"> | <img src="docs/share.gif" alt="Évolution des parts (gaufre) · 16:9 · paper" width="100%"> |
+| `chartreel render examples/china-gdp-counter.csv -c examples/china-gdp-counter.json -a 1:1 --size 720 -d 7 --outro 1.6` | `chartreel render examples/population-share.csv -c examples/population-share.json --theme paper -a 16:9 --size 720 -d 7 --outro 1.6` |
 
 Couvertures en taille réelle : [course 9:16](docs/cover-race-9x16.png) · [course de courbes 16:9](docs/cover-line-16x9.png).
-Toutes les démos utilisent des [données de la Banque mondiale (CC BY 4.0)](examples/README.md).
+
+### Styles prédéfinis (`--style`)
+
+Mêmes données, même vidéo 9:16 de 15 secondes, huit looks. Un style regroupe un thème, une carte d'accroche pendant ~1,5 s, un compteur d'année, la mise en valeur du n° 1 et des effets. Les chiffres restent exacts dans chaque style (`tests/test_styles.py`). Les vignettes sont l'image à 8,25 s de chaque MP4, produit avec :
+
+```bash
+chartreel render examples/gdp-race.csv -c examples/gdp-race.json -d 15 --style STYLE \
+  --hook "Who has the world's biggest economy?" --cta "Follow for more data stories"
+# all eight at once: bash scripts/make_styles.sh out/styles
+```
+
+<table>
+<tr><td width="25%" valign="top"><img src="docs/styles/classic.jpg" alt="--style classic" width="100%"><br><b><code>--style classic</code></b><br><sub>Look par défaut, sans accroche (rendu sans <code>--hook</code>/<code>--cta</code>)</sub></td><td width="25%" valign="top"><img src="docs/styles/cinematic.jpg" alt="--style cinematic" width="100%"><br><b><code>--style cinematic</code></b><br><sub>Accroche en bandes cinéma, halo doré, année qui défile, couronne sur le n° 1, zoom d'impact</sub></td><td width="25%" valign="top"><img src="docs/styles/news.jpg" alt="--style news" width="100%"><br><b><code>--style news</code></b><br><sub>Bandeaux TV : accroche en bandeau, numéros de rang, année en pastille rouge, bandeau de source</sub></td><td width="25%" valign="top"><img src="docs/styles/editorial.jpg" alt="--style editorial" width="100%"><br><b><code>--style editorial</code></b><br><sub>Accroche machine à écrire, barres grises, séries mises en avant (plus <code>--highlight "China,United States"</code>)</sub></td></tr>
+<tr><td width="25%" valign="top"><img src="docs/styles/arcade.jpg" alt="--style arcade" width="100%"><br><b><code>--style arcade</code></b><br><sub>Néon, confettis et zoom quand une barre entre dans le top 3, flèches ▲, traînées de vitesse</sub></td><td width="25%" valign="top"><img src="docs/styles/retro.jpg" alt="--style retro" width="100%"><br><b><code>--style retro</code></b><br><sub>Lignes VHS, texte à aberration chromatique, tampon PLAY, accroche machine à écrire</sub></td><td width="25%" valign="top"><img src="docs/styles/glass.jpg" alt="--style glass" width="100%"><br><b><code>--style glass</code></b><br><sub>Taches de couleur mouvantes, panneau dépoli, barre de progression en haut</sub></td><td width="25%" valign="top"><img src="docs/styles/bold.jpg" alt="--style bold" width="100%"><br><b><code>--style bold</code></b><br><sub>Gros texte façon Douyin : mots d'accroche surlignés, année géante, numéros de rang</sub></td></tr>
+</table>
+
+Les huit côte à côte :
+
+<p align="center"><img src="docs/styles-compare.jpg" alt="Les huit côte à côte " width="100%"></p>
+
+À combiner librement : `--fx bg,vignette,letterbox,scanlines,punch,confetti,trails,arrows,glass`, `--no-fx confetti`, `--year-style roll|row|badge`, `--progress top`, `--hook-style pop|type|strap|bold`. `--audio music.mp3` ajoute une piste dont vous avez les droits (coupée et en fondu ; chartreel ne fournit aucune musique). `chartreel styles` liste tout.
 
 ## Installation
 
@@ -126,7 +152,7 @@ avec 4 processus (environ 27 s avec un seul).
 
 - Les polices viennent du système. Sans police CJK, le texte chinois s'affiche en carrés ; `chartreel doctor` vous prévient.
   Les émojis de drapeaux ne s'affichent pas sous Windows (sa police d'émojis n'a pas de drapeaux).
-- Pas encore de piste audio ni d'images clés personnalisées ; le temps entre deux lignes est uniforme.
+- Pas de musique ni d'effets sonores fournis (ajoutez votre piste avec `--audio`), et pas encore d'images clés personnalisées ; le temps entre deux lignes est uniforme.
 - Le modèle `line` reste lisible jusqu'à environ 8 séries ; `share`, jusqu'à environ 10 parts.
 
 ## Développement
@@ -135,6 +161,9 @@ avec 4 processus (environ 27 s avec un seul).
 pip install -e ".[dev]" && python -m playwright install chromium
 pytest -q                       # parsing, accuracy, deterministic frames, smoke renders
 bash scripts/make_demos.sh      # regenerate docs/*.gif
+bash scripts/make_styles.sh out/styles    # the eight style presets, 9:16 15 s MP4 + cover
+python scripts/make_gallery.py out/styles # docs/styles/*.jpg and docs/styles-compare.jpg
+python scripts/make_banner.py             # docs/banner.png and docs/banner@2x.png
 python scripts/fetch_worldbank.py   # re-download the example data
 ```
 

@@ -85,6 +85,37 @@ Put it all in a JSON config so the render is reproducible (`references/options.m
 
 Chinese videos: add `"locale": "zh"` (numbers as 万/亿/万亿) and write title/notes in Chinese.
 
+## 4b. Pick a style preset (optional, recommended for social video)
+
+`--style` bundles a theme, a hook card, a year counter, the #1 decoration and effects. Every preset keeps
+the numbers exact: the hook only covers the first ~1.5 s, before the data starts moving, and nothing is drawn
+over the takeaway or (for races) between bars.
+
+| `--style` | Look | Good for |
+| --- | --- | --- |
+| `classic` (default) | clean, no hook | docs, slides, X |
+| `cinematic` | gold-on-teal, letterbox hook, vignette, rolling year, crown on #1, punch-in | YouTube Shorts, Bilibili |
+| `news` | TV straps: "DATA" hook strap, rank numbers, red year badge, source strap | serious topics, Weibo/X |
+| `editorial` | paper, typewriter hook, grey bars + `--highlight "A,B"`, big serif year | Xiaohongshu, newsletters |
+| `arcade` | neon, confetti + punch when a bar reaches the top 3, rank-up ▲, speed streaks | Douyin/TikTok, gaming |
+| `retro` | VHS: scanlines, chromatic text, PLAY stamp, typewriter hook | nostalgic topics |
+| `glass` | drifting colour blobs, frosted chart panel, top progress bar | tech/product topics |
+| `bold` | Douyin big-text: giant highlighted hook words, huge year, rank numbers | Douyin/Kuaishou |
+
+Story options that go with presets:
+
+- `--hook "Who has the world's biggest economy?"`: the first-second question (defaults to the title; `--no-hook` turns it off).
+  It must be answerable from the data.
+- `--cta "Follow for more data stories"`: a small line under the takeaway.
+- Fine-tune: `--fx bg,vignette,letterbox,scanlines,punch,confetti,trails,arrows,glass` replaces the preset's effects,
+  `--no-fx confetti` drops one; `--year-style watermark|roll|row|badge`, `--progress timeline|top|both|none`,
+  `--highlight leader|"A,B"`, `--leader/--no-leader`, `--ranks`, `--safe-zone/--no-safe-zone` (presets keep clear
+  of the Douyin/Shorts buttons and caption area). `chartreel styles` lists everything.
+- `--audio music.mp3 [--audio-fade 1.0]` puts a track the user owns or licensed under the MP4 (trimmed, faded in/out).
+  Never download copyrighted music; chartreel ships none.
+
+A config file's `"theme"` is ignored when you pass `--style` on the command line (pass `--theme` to override).
+
 ## 5. Validate, render, check
 
 ```bash
@@ -105,7 +136,8 @@ ffmpeg -v error -i out/data.mp4 -vf "fps=1,scale=360:-1,tile=4x3" -frames:v 1 ou
 ```
 
 Open the cover and the contact sheet. Check: title not cut, labels readable, no CJK tofu boxes (□),
-the takeaway matches the numbers, the source is visible. Fix and re-render if needed.
+the takeaway matches the numbers, the source is visible, the hook (first second) reads in one glance.
+Fix and re-render if needed.
 
 ## 6. Hand over
 

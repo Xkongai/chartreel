@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/hero.gif" alt="chartreel bar chart race: the world's largest economies 1990–2024, World Bank data" width="100%">
+  <img src="docs/banner.png" alt="chartreel — CSV in. Data-animation video out. Real renders of World Bank data: a 9:16 bar race, a line race, a counter and a waffle chart" width="100%">
 </p>
 
 <h1 align="center">chartreel</h1>
@@ -29,16 +29,42 @@ Every number on screen comes from your CSV.
 > **Ask your agent:** "Make a 15-second vertical bar chart race of the 10 largest economies since 1990
 > from World Bank data, with a takeaway at the end."
 
-## Gallery
+## Showcase
 
-| Line race (Chinese labels, `paper`) | Big-number counter (`neon`) |
+Every clip and frame below is a real chartreel render of the bundled [World Bank examples](examples/README.md) (CC BY 4.0), made with the command under it.
+
+### Templates
+
+| Bar chart race · 16:9 · `dark` | Line race · Chinese labels · `paper` |
 | --- | --- |
-| <img src="docs/line-race.gif" alt="Line race: China vs India population 1960–2024" width="100%"> | <img src="docs/counter.gif" alt="Counter: China's GDP 1980, 2000, 2024" width="100%"> |
-| **Share shift (`paper`)** | **Vertical 9:16 for Shorts / Douyin (`neon`)** |
-| <img src="docs/share.gif" alt="Waffle chart: share of world population by region" width="100%"> | <img src="docs/vertical.gif" alt="Vertical bar chart race" width="45%"> |
+| <img src="docs/hero.gif" alt="Bar chart race · 16:9 · dark" width="100%"> | <img src="docs/line-race.gif" alt="Line race · Chinese labels · paper" width="100%"> |
+| `chartreel render examples/gdp-race.csv -c examples/gdp-race.json -a 16:9 --size 720 -d 7 --intro 0.4 --outro 1.6 --top 8` | `chartreel render examples/population-zh.csv -c examples/population-zh.json -a 16:9 --size 720 -d 8 --outro 1.6` |
+| **Big-number counter · 1:1 · `neon`** | **Share shift (waffle) · 16:9 · `paper`** |
+| <img src="docs/counter.gif" alt="Big-number counter · 1:1 · neon" width="100%"> | <img src="docs/share.gif" alt="Share shift (waffle) · 16:9 · paper" width="100%"> |
+| `chartreel render examples/china-gdp-counter.csv -c examples/china-gdp-counter.json -a 1:1 --size 720 -d 7 --outro 1.6` | `chartreel render examples/population-share.csv -c examples/population-share.json --theme paper -a 16:9 --size 720 -d 7 --outro 1.6` |
 
 Full-size covers: [9:16 race](docs/cover-race-9x16.png) · [16:9 line race](docs/cover-line-16x9.png).
-All demos use [World Bank data (CC BY 4.0)](examples/README.md).
+
+### Style presets (`--style`)
+
+Same data, same 15-second 9:16 video, eight looks. A preset bundles a theme, a hook card for the first ~1.5 s, a year counter, the #1 decoration and effects. The numbers stay exact in every preset (`tests/test_styles.py`). Thumbnails are the frame at 8.25 s of each MP4, made with:
+
+```bash
+chartreel render examples/gdp-race.csv -c examples/gdp-race.json -d 15 --style STYLE \
+  --hook "Who has the world's biggest economy?" --cta "Follow for more data stories"
+# all eight at once: bash scripts/make_styles.sh out/styles
+```
+
+<table>
+<tr><td width="25%" valign="top"><img src="docs/styles/classic.jpg" alt="--style classic" width="100%"><br><b><code>--style classic</code></b><br><sub>Default look, no hook (rendered without <code>--hook</code>/<code>--cta</code>)</sub></td><td width="25%" valign="top"><img src="docs/styles/cinematic.jpg" alt="--style cinematic" width="100%"><br><b><code>--style cinematic</code></b><br><sub>Letterbox hook, gold glow, rolling year, crown on #1, punch-in</sub></td><td width="25%" valign="top"><img src="docs/styles/news.jpg" alt="--style news" width="100%"><br><b><code>--style news</code></b><br><sub>TV straps: hook strap, rank numbers, red year badge, source strap</sub></td><td width="25%" valign="top"><img src="docs/styles/editorial.jpg" alt="--style editorial" width="100%"><br><b><code>--style editorial</code></b><br><sub>Typewriter hook, grey bars, highlighted series (plus <code>--highlight "China,United States"</code>)</sub></td></tr>
+<tr><td width="25%" valign="top"><img src="docs/styles/arcade.jpg" alt="--style arcade" width="100%"><br><b><code>--style arcade</code></b><br><sub>Neon, confetti and punch-in when a bar reaches the top 3, ▲ arrows, speed streaks</sub></td><td width="25%" valign="top"><img src="docs/styles/retro.jpg" alt="--style retro" width="100%"><br><b><code>--style retro</code></b><br><sub>VHS scanlines, chromatic text, PLAY stamp, typewriter hook</sub></td><td width="25%" valign="top"><img src="docs/styles/glass.jpg" alt="--style glass" width="100%"><br><b><code>--style glass</code></b><br><sub>Drifting colour blobs, frosted chart panel, top progress bar</sub></td><td width="25%" valign="top"><img src="docs/styles/bold.jpg" alt="--style bold" width="100%"><br><b><code>--style bold</code></b><br><sub>Douyin big-text: giant highlighted hook words, huge year, rank numbers</sub></td></tr>
+</table>
+
+All eight side by side:
+
+<p align="center"><img src="docs/styles-compare.jpg" alt="All eight side by side" width="100%"></p>
+
+Mix your own: `--fx bg,vignette,letterbox,scanlines,punch,confetti,trails,arrows,glass`, `--no-fx confetti`, `--year-style roll|row|badge`, `--progress top`, `--hook-style pop|type|strap|bold`. `--audio music.mp3` adds a track you own (trimmed and faded; chartreel ships no music). `chartreel styles` lists everything.
 
 ## Install
 
@@ -127,7 +153,7 @@ Measured on an 8-core Linux box: a 12 s 1080×1920 race (360 frames) renders in 
 
 - Fonts come from the system. Without a CJK font, Chinese text shows as boxes; `chartreel doctor` warns you.
   Flag emoji do not render on Windows (the system emoji font has no flags).
-- No audio track and no custom per-frame keyframes yet; time between rows is uniform.
+- No bundled music or sound effects (bring your own track with `--audio`), and no custom per-frame keyframes yet; time between rows is uniform.
 - The `line` template is easiest to read with up to about 8 series; `share` with up to about 10 parts.
 
 ## Development
@@ -136,6 +162,9 @@ Measured on an 8-core Linux box: a 12 s 1080×1920 race (360 frames) renders in 
 pip install -e ".[dev]" && python -m playwright install chromium
 pytest -q                       # parsing, accuracy, deterministic frames, smoke renders
 bash scripts/make_demos.sh      # regenerate docs/*.gif
+bash scripts/make_styles.sh out/styles    # the eight style presets, 9:16 15 s MP4 + cover
+python scripts/make_gallery.py out/styles # docs/styles/*.jpg and docs/styles-compare.jpg
+python scripts/make_banner.py             # docs/banner.png and docs/banner@2x.png
 python scripts/fetch_worldbank.py   # re-download the example data
 ```
 

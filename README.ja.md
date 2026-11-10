@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/hero.gif" alt="chartreel のバーチャートレース：世界の経済大国 1990–2024、世界銀行データ" width="100%">
+  <img src="docs/banner.png" alt="chartreel — CSV を入れると、データアニメーション動画が出てくる。世界銀行データの実際のレンダリング：9:16 のバーチャートレース、ラインレース、カウンター、ワッフルチャート" width="100%">
 </p>
 
 <h1 align="center">chartreel</h1>
@@ -27,16 +27,42 @@ Reels、X でよく伸びます。ただ、作るには After Effects や Flouri
 
 > **エージェントにこう頼むだけ：**「世界銀行のデータで、1990 年以降の経済規模トップ 10 の縦型バーチャートレースを 15 秒で作って。最後に結論を入れて。」
 
-## ギャラリー
+## ショーケース
 
-| ラインレース（中国語ラベル、`paper`） | 大きな数字のカウンター（`neon`） |
+以下のアニメーションとフレームはすべて、同梱の[世界銀行サンプル](examples/README.md)（CC BY 4.0）を chartreel で実際にレンダリングしたものです。下に生成コマンドを載せています。
+
+### テンプレート
+
+| バーチャートレース · 16:9 · `dark` | ラインレース · 中国語ラベル · `paper` |
 | --- | --- |
-| <img src="docs/line-race.gif" alt="ラインレース：中国とインドの人口 1960–2024" width="100%"> | <img src="docs/counter.gif" alt="カウンター：中国の GDP 1980・2000・2024" width="100%"> |
-| **構成比の推移（`paper`）** | **縦型 9:16、Shorts / TikTok 向け（`neon`）** |
-| <img src="docs/share.gif" alt="ワッフルチャート：地域別の世界人口シェア" width="100%"> | <img src="docs/vertical.gif" alt="縦型バーチャートレース" width="45%"> |
+| <img src="docs/hero.gif" alt="バーチャートレース · 16:9 · dark" width="100%"> | <img src="docs/line-race.gif" alt="ラインレース · 中国語ラベル · paper" width="100%"> |
+| `chartreel render examples/gdp-race.csv -c examples/gdp-race.json -a 16:9 --size 720 -d 7 --intro 0.4 --outro 1.6 --top 8` | `chartreel render examples/population-zh.csv -c examples/population-zh.json -a 16:9 --size 720 -d 8 --outro 1.6` |
+| **ビッグナンバー・カウンター · 1:1 · `neon`** | **構成比の変化（ワッフル）· 16:9 · `paper`** |
+| <img src="docs/counter.gif" alt="ビッグナンバー・カウンター · 1:1 · neon" width="100%"> | <img src="docs/share.gif" alt="構成比の変化（ワッフル）· 16:9 · paper" width="100%"> |
+| `chartreel render examples/china-gdp-counter.csv -c examples/china-gdp-counter.json -a 1:1 --size 720 -d 7 --outro 1.6` | `chartreel render examples/population-share.csv -c examples/population-share.json --theme paper -a 16:9 --size 720 -d 7 --outro 1.6` |
 
 フルサイズのカバー：[9:16 レース](docs/cover-race-9x16.png) · [16:9 ラインレース](docs/cover-line-16x9.png)。
-デモはすべて[世界銀行データ（CC BY 4.0）](examples/README.md)を使っています。
+
+### スタイルプリセット（`--style`）
+
+同じデータ、同じ 15 秒の 9:16 動画で 8 通りの見た目。プリセットはテーマ、最初の約 1.5 秒のフックカード、年カウンター、1 位の装飾、エフェクトをまとめたものです。どのプリセットでも数値は正確なままです（`tests/test_styles.py`）。サムネイルは各 MP4 の 8.25 秒時点のフレームで、次のコマンドで作りました：
+
+```bash
+chartreel render examples/gdp-race.csv -c examples/gdp-race.json -d 15 --style STYLE \
+  --hook "Who has the world's biggest economy?" --cta "Follow for more data stories"
+# all eight at once: bash scripts/make_styles.sh out/styles
+```
+
+<table>
+<tr><td width="25%" valign="top"><img src="docs/styles/classic.jpg" alt="--style classic" width="100%"><br><b><code>--style classic</code></b><br><sub>標準の見た目、フックなし（<code>--hook</code>/<code>--cta</code> なしでレンダリング）</sub></td><td width="25%" valign="top"><img src="docs/styles/cinematic.jpg" alt="--style cinematic" width="100%"><br><b><code>--style cinematic</code></b><br><sub>シネマ風：レターボックスのフック、金色のグロー、回転する年表示、1 位に王冠、パンチイン</sub></td><td width="25%" valign="top"><img src="docs/styles/news.jpg" alt="--style news" width="100%"><br><b><code>--style news</code></b><br><sub>ニュース番組風：フックのストラップ、順位番号、赤い年バッジ、出典ストラップ</sub></td><td width="25%" valign="top"><img src="docs/styles/editorial.jpg" alt="--style editorial" width="100%"><br><b><code>--style editorial</code></b><br><sub>新聞風：タイプライターのフック、グレーのバー、指定系列を強調（<code>--highlight "China,United States"</code> を追加）</sub></td></tr>
+<tr><td width="25%" valign="top"><img src="docs/styles/arcade.jpg" alt="--style arcade" width="100%"><br><b><code>--style arcade</code></b><br><sub>ゲーム風：ネオン、バーがトップ 3 に入ると紙吹雪とパンチイン、▲ 矢印、スピードライン</sub></td><td width="25%" valign="top"><img src="docs/styles/retro.jpg" alt="--style retro" width="100%"><br><b><code>--style retro</code></b><br><sub>VHS 風：走査線、色ずれ文字、PLAY 表示、タイプライターのフック</sub></td><td width="25%" valign="top"><img src="docs/styles/glass.jpg" alt="--style glass" width="100%"><br><b><code>--style glass</code></b><br><sub>グラスモーフィズム：漂うカラーの光、すりガラスのパネル、上部の進行バー</sub></td><td width="25%" valign="top"><img src="docs/styles/bold.jpg" alt="--style bold" width="100%"><br><b><code>--style bold</code></b><br><sub>抖音の大文字風：特大の強調フック、巨大な年表示、順位番号</sub></td></tr>
+</table>
+
+8 種類を並べて比較：
+
+<p align="center"><img src="docs/styles-compare.jpg" alt="8 種類を並べて比較" width="100%"></p>
+
+自由な組み合わせも可能です：`--fx bg,vignette,letterbox,scanlines,punch,confetti,trails,arrows,glass`、`--no-fx confetti`、`--year-style roll|row|badge`、`--progress top`、`--hook-style pop|type|strap|bold`。`--audio music.mp3` で権利を持つ音源を追加できます（長さを合わせてフェード。chartreel は音楽を同梱しません）。`chartreel styles` で一覧を表示します。
 
 ## インストール
 
@@ -123,7 +149,7 @@ chartreel render my.csv --template line --theme paper --aspect 16:9 --duration 1
 
 - フォントはシステムのものを使います。CJK フォントがないと文字が四角になります。`chartreel doctor` が警告します。
   Windows では国旗の絵文字が表示されません（システムの絵文字フォントに国旗がないため）。
-- 音声トラックや、フレーム単位のカスタムキーフレームはまだありません。行と行の間隔は一定です。
+- 音楽や効果音は同梱していません（`--audio` で自分の音源を追加できます）。フレーム単位のカスタムキーフレームはまだありません。行と行の間隔は一定です。
 - `line` は約 8 系列まで、`share` は約 10 項目までが読みやすい目安です。
 
 ## 開発
@@ -132,6 +158,9 @@ chartreel render my.csv --template line --theme paper --aspect 16:9 --duration 1
 pip install -e ".[dev]" && python -m playwright install chromium
 pytest -q                       # parsing, accuracy, deterministic frames, smoke renders
 bash scripts/make_demos.sh      # regenerate docs/*.gif
+bash scripts/make_styles.sh out/styles    # the eight style presets, 9:16 15 s MP4 + cover
+python scripts/make_gallery.py out/styles # docs/styles/*.jpg and docs/styles-compare.jpg
+python scripts/make_banner.py             # docs/banner.png and docs/banner@2x.png
 python scripts/fetch_worldbank.py   # re-download the example data
 ```
 

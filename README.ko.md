@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/hero.gif" alt="chartreel 바 차트 레이스: 세계 최대 경제국 1990–2024, 세계은행 데이터" width="100%">
+  <img src="docs/banner.png" alt="chartreel — CSV를 넣으면 데이터 애니메이션 영상이 나옵니다. 세계은행 데이터로 실제 렌더링한 화면: 9:16 바 차트 레이스, 라인 레이스, 카운터, 와플 차트" width="100%">
 </p>
 
 <h1 align="center">chartreel</h1>
@@ -28,16 +28,42 @@
 > **에이전트에게 이렇게 말하세요:** "세계은행 데이터로 1990년 이후 상위 10개 경제국의 15초짜리 세로형 바 차트 레이스를 만들고,
 > 마지막에 결론을 넣어 줘."
 
-## 갤러리
+## 쇼케이스
 
-| 라인 레이스 (중국어 라벨, `paper`) | 큰 숫자 카운터 (`neon`) |
+아래의 모든 영상과 프레임은 함께 제공되는 [세계은행 예제](examples/README.md)(CC BY 4.0)를 chartreel로 실제 렌더링한 것이며, 아래에 만든 명령을 적어 두었습니다.
+
+### 템플릿
+
+| 바 차트 레이스 · 16:9 · `dark` | 라인 레이스 · 중국어 라벨 · `paper` |
 | --- | --- |
-| <img src="docs/line-race.gif" alt="라인 레이스: 중국과 인도 인구 1960–2024" width="100%"> | <img src="docs/counter.gif" alt="카운터: 중국 GDP 1980, 2000, 2024" width="100%"> |
-| **비중 변화 (`paper`)** | **Shorts / 더우인용 세로 9:16 (`neon`)** |
-| <img src="docs/share.gif" alt="와플 차트: 지역별 세계 인구 비중" width="100%"> | <img src="docs/vertical.gif" alt="세로형 바 차트 레이스" width="45%"> |
+| <img src="docs/hero.gif" alt="바 차트 레이스 · 16:9 · dark" width="100%"> | <img src="docs/line-race.gif" alt="라인 레이스 · 중국어 라벨 · paper" width="100%"> |
+| `chartreel render examples/gdp-race.csv -c examples/gdp-race.json -a 16:9 --size 720 -d 7 --intro 0.4 --outro 1.6 --top 8` | `chartreel render examples/population-zh.csv -c examples/population-zh.json -a 16:9 --size 720 -d 8 --outro 1.6` |
+| **큰 숫자 카운터 · 1:1 · `neon`** | **비중 변화(와플) · 16:9 · `paper`** |
+| <img src="docs/counter.gif" alt="큰 숫자 카운터 · 1:1 · neon" width="100%"> | <img src="docs/share.gif" alt="비중 변화(와플) · 16:9 · paper" width="100%"> |
+| `chartreel render examples/china-gdp-counter.csv -c examples/china-gdp-counter.json -a 1:1 --size 720 -d 7 --outro 1.6` | `chartreel render examples/population-share.csv -c examples/population-share.json --theme paper -a 16:9 --size 720 -d 7 --outro 1.6` |
 
 원본 크기 커버: [9:16 레이스](docs/cover-race-9x16.png) · [16:9 라인 레이스](docs/cover-line-16x9.png).
-모든 데모는 [세계은행 데이터(CC BY 4.0)](examples/README.md)를 사용합니다.
+
+### 스타일 프리셋 (`--style`)
+
+같은 데이터, 같은 15초 9:16 영상, 여덟 가지 룩. 프리셋은 테마, 처음 약 1.5초의 훅 카드, 연도 카운터, 1위 장식, 효과를 묶은 것입니다. 모든 프리셋에서 숫자는 정확하게 유지됩니다(`tests/test_styles.py`). 썸네일은 각 MP4의 8.25초 프레임이며 다음 명령으로 만들었습니다:
+
+```bash
+chartreel render examples/gdp-race.csv -c examples/gdp-race.json -d 15 --style STYLE \
+  --hook "Who has the world's biggest economy?" --cta "Follow for more data stories"
+# all eight at once: bash scripts/make_styles.sh out/styles
+```
+
+<table>
+<tr><td width="25%" valign="top"><img src="docs/styles/classic.jpg" alt="--style classic" width="100%"><br><b><code>--style classic</code></b><br><sub>기본 룩, 훅 없음(<code>--hook</code>/<code>--cta</code> 없이 렌더링)</sub></td><td width="25%" valign="top"><img src="docs/styles/cinematic.jpg" alt="--style cinematic" width="100%"><br><b><code>--style cinematic</code></b><br><sub>레터박스 훅, 금빛 글로우, 굴러가는 연도, 1위 왕관, 펀치 인</sub></td><td width="25%" valign="top"><img src="docs/styles/news.jpg" alt="--style news" width="100%"><br><b><code>--style news</code></b><br><sub>TV 뉴스 자막: 훅 띠, 순위 번호, 빨간 연도 배지, 출처 띠</sub></td><td width="25%" valign="top"><img src="docs/styles/editorial.jpg" alt="--style editorial" width="100%"><br><b><code>--style editorial</code></b><br><sub>타자기 훅, 회색 막대, 강조할 시리즈(<code>--highlight "China,United States"</code> 추가)</sub></td></tr>
+<tr><td width="25%" valign="top"><img src="docs/styles/arcade.jpg" alt="--style arcade" width="100%"><br><b><code>--style arcade</code></b><br><sub>네온, 막대가 3위 안에 들면 색종이와 펀치 인, ▲ 화살표, 속도선</sub></td><td width="25%" valign="top"><img src="docs/styles/retro.jpg" alt="--style retro" width="100%"><br><b><code>--style retro</code></b><br><sub>VHS 주사선, 색수차 글자, PLAY 표시, 타자기 훅</sub></td><td width="25%" valign="top"><img src="docs/styles/glass.jpg" alt="--style glass" width="100%"><br><b><code>--style glass</code></b><br><sub>떠다니는 색 번짐, 반투명 유리 패널, 상단 진행 막대</sub></td><td width="25%" valign="top"><img src="docs/styles/bold.jpg" alt="--style bold" width="100%"><br><b><code>--style bold</code></b><br><sub>더우인식 큰 글자: 크게 강조한 훅 단어, 거대한 연도, 순위 번호</sub></td></tr>
+</table>
+
+여덟 가지를 나란히:
+
+<p align="center"><img src="docs/styles-compare.jpg" alt="여덟 가지를 나란히" width="100%"></p>
+
+직접 조합할 수도 있습니다: `--fx bg,vignette,letterbox,scanlines,punch,confetti,trails,arrows,glass`, `--no-fx confetti`, `--year-style roll|row|badge`, `--progress top`, `--hook-style pop|type|strap|bold`. `--audio music.mp3`로 권리가 있는 음원을 넣을 수 있습니다(길이에 맞춰 자르고 페이드; chartreel은 음악을 포함하지 않습니다). `chartreel styles`로 전체 목록을 볼 수 있습니다.
 
 ## 설치
 
@@ -124,7 +150,7 @@ JSON 설정 파일에 적습니다. 전체 목록: [skills/chartreel/references/
 
 - 글꼴은 시스템 글꼴을 사용합니다. CJK 글꼴이 없으면 글자가 네모로 보이며, `chartreel doctor`가 경고합니다.
   Windows에서는 국기 이모지가 표시되지 않습니다(시스템 이모지 글꼴에 국기가 없음).
-- 아직 오디오 트랙과 사용자 지정 키프레임은 없으며, 행 사이 시간은 균일합니다.
+- 음악과 효과음은 포함하지 않습니다(`--audio`로 직접 음원 추가). 프레임 단위 사용자 키프레임은 아직 없으며 행 사이 시간은 균일합니다.
 - `line`은 약 8개 계열, `share`는 약 10개 항목까지가 읽기 좋습니다.
 
 ## 개발
@@ -133,6 +159,9 @@ JSON 설정 파일에 적습니다. 전체 목록: [skills/chartreel/references/
 pip install -e ".[dev]" && python -m playwright install chromium
 pytest -q                       # parsing, accuracy, deterministic frames, smoke renders
 bash scripts/make_demos.sh      # regenerate docs/*.gif
+bash scripts/make_styles.sh out/styles    # the eight style presets, 9:16 15 s MP4 + cover
+python scripts/make_gallery.py out/styles # docs/styles/*.jpg and docs/styles-compare.jpg
+python scripts/make_banner.py             # docs/banner.png and docs/banner@2x.png
 python scripts/fetch_worldbank.py   # re-download the example data
 ```
 

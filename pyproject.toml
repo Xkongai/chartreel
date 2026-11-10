@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "chartreel"
-version = "0.1.0"
+version = "0.2.0"
 description = "Agent Skill + CLI: turn a CSV into an accurate data-animation short video (bar chart race, line race, counter, share) — MP4, GIF and cover, 9:16 or 16:9."
 readme = "README.md"
 requires-python = ">=3.10"
