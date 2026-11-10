@@ -1,0 +1,19 @@
+{
+  "name": "chartreel",
+  "owner": {
+    "name": "Xkongai"
+  },
+  "metadata": {
+    "description": "Turn a CSV into an accurate data-animation short video (bar chart race, line race, counter, share) — MP4, GIF and cover.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "chartreel",
+      "description": "Agent Skill for data-animation short videos: bar chart race, line race, big-number counter and share shift, 9:16 / 16:9 / 1:1, with every number taken from the source data.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/chartreel"]
+    }
+  ]
+}

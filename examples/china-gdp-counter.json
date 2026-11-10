@@ -1,0 +1,10 @@
+{
+  "template": "counter",
+  "theme": "neon",
+  "title": "中国 GDP：从 1915 亿到 18.7 万亿美元",
+  "subtitle": "国内生产总值，现价美元",
+  "source": "世界银行 WDI（NY.GDP.MKTP.CD），CC BY 4.0",
+  "takeaway": "44 年增长约 98 倍",
+  "locale": "zh",
+  "suffix": "美元"
+}

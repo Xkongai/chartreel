@@ -1,0 +1,19 @@
+{
+  "template": "race",
+  "theme": "dark",
+  "title": "The world's largest economies, 1990–2024",
+  "subtitle": "GDP, current US$",
+  "source": "World Bank WDI (NY.GDP.MKTP.CD), CC BY 4.0",
+  "takeaway": "China's GDP grew 52× in 34 years",
+  "prefix": "$",
+  "top": 10,
+  "notes": ["2008: Global financial crisis", "2010: China passes Japan", "2020: COVID-19 pandemic"],
+  "series": {
+    "United States": {"emoji": "🇺🇸"}, "China": {"emoji": "🇨🇳"}, "Japan": {"emoji": "🇯🇵"},
+    "Germany": {"emoji": "🇩🇪"}, "India": {"emoji": "🇮🇳"}, "United Kingdom": {"emoji": "🇬🇧"},
+    "France": {"emoji": "🇫🇷"}, "Italy": {"emoji": "🇮🇹"}, "Brazil": {"emoji": "🇧🇷"},
+    "Canada": {"emoji": "🇨🇦"}, "Russia": {"emoji": "🇷🇺"}, "South Korea": {"emoji": "🇰🇷"},
+    "Spain": {"emoji": "🇪🇸"}, "Australia": {"emoji": "🇦🇺"}, "Mexico": {"emoji": "🇲🇽"},
+    "Indonesia": {"emoji": "🇮🇩"}
+  }
+}

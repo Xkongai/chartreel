@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chartreel · @@TEMPLATE@@</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #000; }
+  canvas { display: block; }
+  body.preview { background: #1b1d22; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; font: 14px system-ui, sans-serif; color: #ccd; }
+  body.preview canvas { max-width: 96vw; max-height: 84vh; width: auto; height: auto; box-shadow: 0 10px 40px rgba(0,0,0,.5); border-radius: 6px; }
+  #player { display: flex; gap: 12px; align-items: center; }
+  #player[hidden] { display: none; }
+  #player input { width: min(60vw, 640px); }
+  #player button { font: inherit; padding: 4px 14px; border-radius: 6px; border: 1px solid #556; background: #2a2d35; color: #eef; cursor: pointer; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="player" hidden><button id="play">Pause</button><input id="scrub" type="range" min="0" step="0.01" value="0"><span id="time"></span></div>
+<script>/*@@SPEC@@*/</script>
+<script>/*@@COMMON@@*/</script>
+<script>
+/*@@TEMPLATE_JS@@*/
+</script>
+</body>
+</html>

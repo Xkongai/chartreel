@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install ffmpeg and fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg fonts-noto-cjk fonts-noto-color-emoji
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+          python -m playwright install --with-deps chromium
+      - name: Test
+        run: pytest -q
+      - name: Smoke render
+        run: |
+          chartreel --version
+          chartreel doctor
+          chartreel validate examples/gdp-race.csv -c examples/gdp-race.json
+          chartreel render examples/gdp-race.csv -c examples/gdp-race.json --size 360 -d 3 --fps 15 -o out
+          chartreel render examples/china-gdp-counter.csv -c examples/china-gdp-counter.json -a 16:9 --size 360 -d 3 --fps 15 -o out
+          ffprobe -v error -show_entries stream=codec_name,pix_fmt,width,height -of compact out/gdp-race.mp4
+          ls -l out
+      - uses: actions/upload-artifact@v4
+        if: matrix.python-version == '3.12'
+        with:
+          name: smoke-render
+          path: out/

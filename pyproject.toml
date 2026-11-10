@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chartreel"
+version = "0.1.0"
+description = "Agent Skill + CLI: turn a CSV into an accurate data-animation short video (bar chart race, line race, counter, share) — MP4, GIF and cover, 9:16 or 16:9."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Xkongai" }]
+keywords = ["bar-chart-race", "data-visualization", "animation", "video", "shorts", "tiktok", "agent-skill", "claude-code", "codex", "csv", "cjk"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Environment :: Console",
+  "Topic :: Multimedia :: Video",
+  "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = ["playwright>=1.40"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+chartreel = "chartreel.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Xkongai/chartreel"
+Issues = "https://github.com/Xkongai/chartreel/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/chartreel"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "examples", "skills", "README*.md", "CHANGELOG.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
